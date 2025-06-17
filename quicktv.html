@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Divine Eye of Heaven - Streaming</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #111;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .episode-list button {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    video {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container py-4">
+    <h1 id="show-title" class="mb-3"></h1>
+    <p id="show-description"></p>
+    <div class="row">
+      <div class="col-md-8">
+        <div class="player-container">
+          <video id="video-player" controls crossorigin="anonymous"></video>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <h5>Episodes</h5>
+        <div class="episode-list" id="episode-buttons"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const video = document.getElementById('video-player');
+    //const subtitleBase = "https://raw.githubusercontent.com/PurushothMathav/quicksubs/ec74f55a540e9c76400bf7b2ad62a7fe6001cba3/Divine%20Eye%20of%20Heaven/";
+    let showData;
+    let currentEpisodeIndex = 0;
+
+    fetch('/quicktv vip/Grumpy Princess.json')
+      .then(res => res.json())
+      .then(json => {
+        showData = json.data;
+        document.getElementById('show-title').textContent = showData.title;
+        document.getElementById('show-description').textContent = showData.description;
+
+        const episodeContainer = document.getElementById('episode-buttons');
+        showData.episodes_list.forEach((ep, index) => {
+          const btn = document.createElement('button');
+          btn.className = 'btn btn-outline-light';
+          btn.textContent = `Episode ${ep.name}`;
+          btn.onclick = () => loadEpisode(index);
+          episodeContainer.appendChild(btn);
+        });
+
+        if (showData.episodes_list.length > 0) {
+          loadEpisode(0);
+        }
+      });
+
+    function loadEpisode(index) {
+      currentEpisodeIndex = index;
+      const episode = showData.episodes_list[index];
+      video.src = episode.url;
+
+      const oldTrack = document.querySelector('track');
+      if (oldTrack) oldTrack.remove();
+
+      const subtitleUrl = `${subtitleBase}${episode.name}.vtt`;
+
+      const track = document.createElement('track');
+      track.kind = "subtitles";
+      track.label = "English";
+      track.srclang = "en";
+      track.src = subtitleUrl;
+      track.default = true;
+
+      video.appendChild(track);
+      video.textTracks[0].mode = "showing";
+      video.load();
+      video.play();
+    }
+
+    video.addEventListener('ended', () => {
+      if (currentEpisodeIndex + 1 < showData.episodes_list.length) {
+        loadEpisode(currentEpisodeIndex + 1);
+      }
+    });
+  </script>
+</body>
+</html>
