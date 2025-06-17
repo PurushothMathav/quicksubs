@@ -69,7 +69,7 @@
     if (!jsonFile) {
       episodeLabel.textContent = "❌ No show selected";
     } else {
-      fetch(`json/${jsonFile}`)
+      fetch(jsonFile)
         .then(res => res.json())
         .then(json => {
           showData = json.data;
