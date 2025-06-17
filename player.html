@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Drama Player</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    #episode-number {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-top: 1rem;
+    }
+    video {
+      width: 100%;
+      max-width: 420px;
+      height: auto;
+      aspect-ratio: 9 / 16;
+      background: #000;
+      border-radius: 12px;
+      margin-top: 10px;
+    }
+    .episode-buttons {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+    .episode-buttons button {
+      background: #222;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 5px 12px;
+      font-size: 0.9rem;
+    }
+    .episode-buttons button.active {
+      background: #f90;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <div id="episode-number">Episode</div>
+  <video id="video-player" controls playsinline></video>
+  <div class="episode-buttons" id="episode-buttons"></div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const jsonFile = urlParams.get('show');
+    const video = document.getElementById('video-player');
+    const episodeLabel = document.getElementById('episode-number');
+    const buttonGroup = document.getElementById('episode-buttons');
+
+    let showData;
+    let currentEpisode = 0;
+
+    if (!jsonFile) {
+      episodeLabel.textContent = "❌ No show selected";
+    } else {
+      fetch(`json/${jsonFile}`)
+        .then(res => res.json())
+        .then(json => {
+          showData = json.data;
+          createEpisodeButtons(showData.episodes_list);
+          loadEpisode(0);
+        });
+    }
+
+    function createEpisodeButtons(episodes) {
+      buttonGroup.innerHTML = '';
+      episodes.forEach((ep, index) => {
+        const btn = document.createElement('button');
+        btn.textContent = ep.name;
+        btn.onclick = () => loadEpisode(index);
+        btnGroupHighlight(btn);
+        buttonGroup.appendChild(btn);
+      });
+    }
+
+    function btnGroupHighlight(activeBtn) {
+      const allBtns = buttonGroup.querySelectorAll('button');
+      allBtns.forEach(btn => btn.classList.remove('active'));
+      activeBtn.classList.add('active');
+    }
+
+    function loadEpisode(index) {
+      currentEpisode = index;
+      const ep = showData.episodes_list[index];
+      video.src = ep.url;
+      episodeLabel.textContent = `Episode ${ep.name}`;
+
+      const oldTrack = document.querySelector('track');
+      if (oldTrack) oldTrack.remove();
+
+      const subtitle = document.createElement('track');
+      subtitle.kind = 'subtitles';
+      subtitle.label = 'English';
+      subtitle.srclang = 'en';
+      subtitle.src = `https://raw.githubusercontent.com/PurushothMathav/quicksubs/main/subtitles/${ep.name}.vtt`;
+      subtitle.default = true;
+      video.appendChild(subtitle);
+
+      const allBtns = buttonGroup.querySelectorAll('button');
+      if (allBtns[index]) btnGroupHighlight(allBtns[index]);
+
+      video.load();
+      video.play();
+    }
+
+    video.addEventListener('ended', () => {
+      if (currentEpisode + 1 < showData.episodes_list.length) {
+        loadEpisode(currentEpisode + 1);
+      }
+    });
+  </script>
+</body>
+</html>
