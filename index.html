@@ -72,7 +72,7 @@
     ];
 
     shows.forEach(file => {
-      fetch(`json/${file}`)
+      fetch(file)
         .then(res => res.json())
         .then(data => {
           const show = data.data;
