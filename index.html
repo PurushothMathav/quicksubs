@@ -1,98 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Divine Eye of Heaven - Streaming</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Chinese Mini Drama - Home</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
   <style>
     body {
-      background-color: #111;
+      background-color: #000;
       color: #fff;
       font-family: 'Segoe UI', sans-serif;
+      text-align: center;
     }
-    .episode-list button {
-      width: 100%;
-      margin-bottom: 10px;
+    h1 {
+      margin: 1rem 0;
     }
-    video {
+    .show-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      padding: 1rem;
+    }
+    .show-card {
+      background: #111;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .show-card:hover {
+      transform: scale(1.03);
+    }
+    .show-card img {
       width: 100%;
-      height: auto;
-      border-radius: 12px;
+      height: 240px;
+      object-fit: cover;
+    }
+    .show-title {
+      padding: 0.5rem;
+      font-size: 1rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   </style>
 </head>
 <body>
-  <div class="container py-4">
-    <h1 id="show-title" class="mb-3"></h1>
-    <p id="show-description"></p>
-    <div class="row">
-      <div class="col-md-8">
-        <div class="player-container">
-          <video id="video-player" controls crossorigin="anonymous"></video>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <h5>Episodes</h5>
-        <div class="episode-list" id="episode-buttons"></div>
-      </div>
-    </div>
-  </div>
+  <h1>📱 Chinese Mini Drama</h1>
+  <div class="show-grid" id="show-list"></div>
 
   <script>
-    const video = document.getElementById('video-player');
-    //const subtitleBase = "https://raw.githubusercontent.com/PurushothMathav/quicksubs/ec74f55a540e9c76400bf7b2ad62a7fe6001cba3/Divine%20Eye%20of%20Heaven/";
-    let showData;
-    let currentEpisodeIndex = 0;
+    const showListEl = document.getElementById("show-list");
 
-    fetch('json/Grumpy%20Princess.json')
-      .then(res => res.json())
-      .then(json => {
-        showData = json.data;
-        document.getElementById('show-title').textContent = showData.title;
-        document.getElementById('show-description').textContent = showData.description;
+    // List of JSON files in the json folder (you can automate this with a backend or a manifest.json)
+    const shows = [
+      "json/Grumpy%20Princess.json",
+      "json/Take%20My%20Wife%20Away.json",
+      "json/Divine%20Eye%20Of%20Heaven.json"
+    ];
 
-        const episodeContainer = document.getElementById('episode-buttons');
-        showData.episodes_list.forEach((ep, index) => {
-          const btn = document.createElement('button');
-          btn.className = 'btn btn-outline-light';
-          btn.textContent = `Episode ${ep.name}`;
-          btn.onclick = () => loadEpisode(index);
-          episodeContainer.appendChild(btn);
+    shows.forEach(file => {
+      fetch(`json/${file}`)
+        .then(res => res.json())
+        .then(data => {
+          const show = data.data;
+          const card = document.createElement("div");
+          card.className = "show-card";
+          card.onclick = () => location.href = `player.html?show=${encodeURIComponent(file)}`;
+          card.innerHTML = `
+            <img src="${show.image || 'https://via.placeholder.com/150x240?text=No+Image'}" alt="${show.title}">
+            <div class="show-title">${show.title}</div>
+          `;
+          showListEl.appendChild(card);
         });
-
-        if (showData.episodes_list.length > 0) {
-          loadEpisode(0);
-        }
-      });
-
-    function loadEpisode(index) {
-      currentEpisodeIndex = index;
-      const episode = showData.episodes_list[index];
-      video.src = episode.url;
-
-      const oldTrack = document.querySelector('track');
-      if (oldTrack) oldTrack.remove();
-
-      const subtitleUrl = `${subtitleBase}${episode.name}.vtt`;
-
-      const track = document.createElement('track');
-      track.kind = "subtitles";
-      track.label = "English";
-      track.srclang = "en";
-      track.src = subtitleUrl;
-      track.default = true;
-
-      video.appendChild(track);
-      video.textTracks[0].mode = "showing";
-      video.load();
-      video.play();
-    }
-
-    video.addEventListener('ended', () => {
-      if (currentEpisodeIndex + 1 < showData.episodes_list.length) {
-        loadEpisode(currentEpisodeIndex + 1);
-      }
     });
   </script>
 </body>
