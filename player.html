@@ -451,9 +451,10 @@
 <body>
   <div class="header">
     <div class="header-content">
-      <a href="index.html" class="back-btn">
-        <i class="fas fa-arrow-left"></i> Back
-      </a>
+      <button id="backBtn" class="back-btn">
+		<i class="fas fa-arrow-left"></i> Back
+	  </button>
+
       <div class="page-title" id="page-title">CMD Player</div>
     </div>
   </div>
@@ -724,5 +725,16 @@
       }
     });
   </script>
+  <script>
+  document.getElementById("backBtn").addEventListener("click", () => {
+    // Go back if there's history, else fallback to index.html
+    if (document.referrer.includes("index.html")) {
+      history.back();
+    } else {
+      window.location.href = "index.html";
+    }
+  });
+</script>
+
 </body>
 </html>

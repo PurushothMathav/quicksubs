@@ -230,7 +230,30 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+	
+	
+	.sub-tag {
+  display: inline-block;
+  margin-top: 0.3rem;
+  padding: 2px 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border-radius: 4px;
+  background-color: #444;
+  color: #fff;
+}
 
+.sub-tag.soft {
+  background-color: #4ecdc4;
+  color: #000;
+}
+
+.sub-tag.hard {
+  background-color: #ff6b6b;
+  color: #fff;
+}
+
+	
     /* Responsive Design */
     @media (max-width: 768px) {
       .header-content {
@@ -877,11 +900,22 @@
         card.onclick = () => location.href = `player.html?show=${encodeURIComponent(file)}`;
         
         const imageUrl = show.image || 'https://via.placeholder.com/180x240/333/fff?text=No+Image';
-        
-        card.innerHTML = `
-          <img src="${imageUrl}" alt="${show.title}" loading="lazy">
-          <div class="show-title">${show.title}</div>
-        `;
+		const hasSoftSub =
+			Array.isArray(show.episodes_list) &&
+			typeof show.episodes_list[0]?.track === 'string' &&
+			show.episodes_list[0].track.trim() !== '';
+
+
+		card.innerHTML = `
+			<img src="${imageUrl}" alt="${show.title}" loading="lazy">
+			<div class="show-title">
+				${show.title}
+				<span class="sub-tag ${hasSoftSub ? 'soft' : 'hard'}">
+					${hasSoftSub ? 'Soft Sub' : 'Hard Sub'}
+				</span>
+			</div>
+		`;
+
         
         showListEl.appendChild(card);
       });
