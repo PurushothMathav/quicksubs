@@ -106,12 +106,6 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin-bottom: 0.5rem;
-    }
-
-    .episode-title {
-      font-size: 1rem;
-      color: rgba(255, 255, 255, 0.8);
     }
 
     /* Video Player */
@@ -134,28 +128,6 @@
       background: #000;
       border-radius: 15px;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    }
-
-    video::cue {
-      background: rgba(0, 0, 0, 0.8);
-      color: #ffffff;
-      font-size: 16px;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      font-weight: 600;
-      text-align: center;
-      line-height: 1.4;
-      padding: 8px 12px;
-      border-radius: 6px;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    video::-webkit-media-text-track-display {
-      bottom: 80px;
-    }
-
-    video::-webkit-media-controls-panel {
-      background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.8));
     }
 
     /* Loading Overlay */
@@ -423,11 +395,6 @@
         padding: 0.6rem 0.4rem;
         font-size: 0.8rem;
       }
-
-      video::cue {
-        font-size: 14px;
-        padding: 6px 10px;
-      }
     }
 
     @media (max-width: 480px) {
@@ -455,11 +422,6 @@
       .stat-item {
         font-size: 0.75rem;
         padding: 0.25rem 0.5rem;
-      }
-
-      video::cue {
-        font-size: 12px;
-        padding: 4px 8px;
       }
     }
 
@@ -507,7 +469,7 @@
       <a href="index.html" class="back-btn">
         <i class="fas fa-arrow-left"></i> Back
       </a>
-      <div class="page-title" id="page-title">CMD Player</div>
+      <div class="page-title" id="page-title">Episode 1</div>
     </div>
   </div>
 
@@ -516,7 +478,6 @@
       <!-- Episode Info -->
       <div class="episode-info" id="episode-info">
         <div class="episode-number" id="episode-number">Loading...</div>
-        <div class="episode-title" id="episode-title"></div>
       </div>
 
       <!-- Video Player -->
@@ -561,7 +522,6 @@
     const episodeParam = urlParams.get('e');
     const video = document.getElementById('video-player');
     const episodeLabel = document.getElementById('episode-number');
-    const episodeTitle = document.getElementById('episode-title');
     const buttonGroup = document.getElementById('episode-buttons');
     const dramaDetails = document.getElementById('drama-details');
     const pageTitle = document.getElementById('page-title');
@@ -690,10 +650,9 @@
       currentEpisode = index;
       const ep = showData.episodes_list[index];
       
-      // Update UI - Show only episode number in header
+      // Update UI - Show only episode number in header and episode info
       pageTitle.textContent = `Episode ${ep.name}`;
       episodeLabel.textContent = `Episode ${ep.name}`;
-      episodeTitle.textContent = showData.title;
       
       // Update video
       video.src = ep.url;
@@ -702,7 +661,7 @@
       const oldTrack = video.querySelector('track');
       if (oldTrack) oldTrack.remove();
 
-      // Add new subtitle track
+      // Add new subtitle track (simple implementation)
       const subtitle = document.createElement('track');
       subtitle.kind = 'subtitles';
       subtitle.label = 'English';
