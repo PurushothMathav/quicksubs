@@ -170,7 +170,7 @@
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 15px;
       padding: 1.5rem;
-      margin-top: 1rem;
+      margin-top: 0.2rem;
     }
 
     .drama-header {
@@ -306,7 +306,7 @@
       gap: 1rem;
       width: 100%;
       max-width: 420px;
-      margin-top: 1rem;
+      margin-top: 0.1rem;
     }
 
     .nav-btn {
@@ -509,11 +509,11 @@
       <!-- Navigation Buttons -->
       <div class="nav-buttons">
         <button class="nav-btn" id="prev-btn" onclick="previousEpisode()">
-          <i class="fas fa-step-backward"></i> Previous
-        </button>
-        <button class="nav-btn" id="next-btn" onclick="nextEpisode()">
-          Next <i class="fas fa-step-forward"></i>
-        </button>
+			<i class="fas fa-step-backward"></i> <span id="prev-label">Previous</span>
+		</button>
+		<button class="nav-btn" id="next-btn" onclick="nextEpisode()">
+			<span id="next-label">Next</span> <i class="fas fa-step-forward"></i>
+		</button>
       </div>
 
       <!-- Drama Details -->
@@ -640,11 +640,29 @@
     }
 
     function updateNavigationButtons() {
-      if (!showData) return;
-      
-      prevBtn.disabled = currentEpisode === 0;
-      nextBtn.disabled = currentEpisode >= showData.episodes_list.length - 1;
-    }
+		if (!showData) return;
+
+		const total = showData.episodes_list.length;
+		const prevLabel = document.getElementById("prev-label");
+		const nextLabel = document.getElementById("next-label");
+
+		if (currentEpisode > 0) {
+			prevBtn.disabled = false;
+			prevLabel.textContent = `EP${currentEpisode}`;
+		} else {
+			prevBtn.disabled = true;
+			prevLabel.textContent = `Previous`;
+		}
+
+		if (currentEpisode < total - 1) {
+			nextBtn.disabled = false;
+			nextLabel.textContent = `EP${currentEpisode + 2}`;
+		} else {
+			nextBtn.disabled = true;
+			nextLabel.textContent = `Next`;
+		}
+	}
+
 
     function updatePageTitle() {
       if (!showData || !showData.episodes_list[currentEpisode]) return;
