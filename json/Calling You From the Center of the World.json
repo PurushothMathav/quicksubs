@@ -1,7 +1,7 @@
 {
   "code": 1,
   "msg": "Detail",
-  "time": "1750173698",
+  "time": "1750214381",
   "data": {
     "id": 9839,
     "category_ids": "139,57",
@@ -33,7 +33,7 @@
         "duration": 97,
         "price": 0,
         "vprice": 0,
-        "views": 8,
+        "views": 9,
         "favorites": 2,
         "shares": 0,
         "likes": 6,
@@ -1769,7 +1769,7 @@
         "url": "https://liketv.oss-cn-hongkong.aliyuncs.com/btfolder2/video/wangpan/%E5%9C%A8%E4%B8%96%E7%95%8C%E4%B8%AD%E5%BF%83%E5%91%BC%E5%94%A4%E4%BD%A0/109.mp4"
       }
     ],
-    "adsurl": "https://liketv.oss-cn-hongkong.aliyuncs.com/00quicktv/5.mp4",
+    "adsurl": "https://liketv.oss-cn-hongkong.aliyuncs.com/00quicktv/35.mp4",
     "tags_arr": [],
     "category_text_arr": [],
     "year_text": "",
