@@ -429,25 +429,6 @@
       }
     }
 
-    /* Auto-play notification */
-    .autoplay-notification {
-      position: fixed;
-      top: 80px;
-      right: 1rem;
-      background: rgba(78, 205, 196, 0.9);
-      color: #fff;
-      padding: 0.75rem 1rem;
-      border-radius: 10px;
-      font-size: 0.9rem;
-      transform: translateX(100%);
-      transition: transform 0.3s ease;
-      z-index: 1001;
-    }
-
-    .autoplay-notification.show {
-      transform: translateX(0);
-    }
-
     /* Custom scrollbar */
     ::-webkit-scrollbar {
       width: 8px;
@@ -473,7 +454,7 @@
       <a href="index.html" class="back-btn">
         <i class="fas fa-arrow-left"></i> Back
       </a>
-      <div class="page-title" id="page-title">Loading...</div>
+      <div class="page-title" id="page-title">CMD Player</div>
     </div>
   </div>
 
@@ -510,11 +491,6 @@
     </div>
   </div>
 
-  <!-- Auto-play Notification -->
-  <div class="autoplay-notification" id="autoplay-notification">
-    <i class="fas fa-play"></i> Playing next episode...
-  </div>
-
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     let jsonFile = urlParams.get('show');
@@ -524,7 +500,6 @@
     const dramaDetails = document.getElementById('drama-details');
     const pageTitle = document.getElementById('page-title');
     const loadingOverlay = document.getElementById('loading-overlay');
-    const autoplayNotification = document.getElementById('autoplay-notification');
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
 
@@ -559,6 +534,7 @@
         const showTitle = decodeURIComponent(jsonFile).replace(/^json\//, '').replace(/\.json$/, '');
         subtitleBase = `https://purushothmathav.github.io/quicksubs/subs/${showTitle}/`;
 
+        // Set the document title to the show title
         document.title = showData.title;
         
         renderDetails(showData);
@@ -630,6 +606,19 @@
       nextBtn.disabled = currentEpisode >= showData.episodes_list.length - 1;
     }
 
+    function updatePageTitle() {
+      if (!showData || !showData.episodes_list[currentEpisode]) return;
+      
+      const episodeName = showData.episodes_list[currentEpisode].name;
+      const showTitle = showData.title;
+      
+      // Update the header title to show current episode
+      pageTitle.textContent = `${showTitle} - Episode ${episodeName}`;
+      
+      // Also update the document title
+      document.title = `${showTitle} - Episode ${episodeName}`;
+    }
+
     function previousEpisode() {
       if (currentEpisode > 0) {
         loadEpisode(currentEpisode - 1);
@@ -648,8 +637,8 @@
       currentEpisode = index;
       const ep = showData.episodes_list[index];
       
-      // Update UI - Show episode number in nav bar
-      pageTitle.textContent = `Episode ${ep.name}`;
+      // Update page title to show current episode
+      updatePageTitle();
       
       // Update video
       video.src = ep.url;
