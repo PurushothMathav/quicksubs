@@ -38,7 +38,7 @@
       padding: 0 1rem;
       display: flex;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: space-between;
       gap: 1rem;
     }
 
@@ -71,7 +71,10 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      flex: 1;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
     }
 
     /* Main Content */
@@ -350,7 +353,7 @@
     @media (max-width: 768px) {
       .header-content {
         padding: 0 0.5rem;
-        justify-content: flex-start;
+        position: relative;
       }
 
       .page-title {
@@ -401,6 +404,7 @@
       .header-content {
         flex-wrap: nowrap;
         gap: 0.5rem;
+        position: relative;
       }
 
       .page-title {
@@ -469,17 +473,12 @@
       <a href="index.html" class="back-btn">
         <i class="fas fa-arrow-left"></i> Back
       </a>
-      <div class="page-title" id="page-title">Episode 1</div>
+      <div class="page-title" id="page-title">Loading...</div>
     </div>
   </div>
 
   <div class="main-content">
     <div class="player-container">
-      <!-- Episode Info -->
-      <div class="episode-info" id="episode-info">
-        <div class="episode-number" id="episode-number">Loading...</div>
-      </div>
-
       <!-- Video Player -->
       <div class="video-container">
         <video id="video-player" controls playsinline preload="metadata"></video>
@@ -521,7 +520,6 @@
     let jsonFile = urlParams.get('show');
     const episodeParam = urlParams.get('e');
     const video = document.getElementById('video-player');
-    const episodeLabel = document.getElementById('episode-number');
     const buttonGroup = document.getElementById('episode-buttons');
     const dramaDetails = document.getElementById('drama-details');
     const pageTitle = document.getElementById('page-title');
@@ -650,9 +648,8 @@
       currentEpisode = index;
       const ep = showData.episodes_list[index];
       
-      // Update UI - Show only episode number in header and episode info
+      // Update UI - Show episode number in nav bar
       pageTitle.textContent = `Episode ${ep.name}`;
-      episodeLabel.textContent = `Episode ${ep.name}`;
       
       // Update video
       video.src = ep.url;
