@@ -32,18 +32,35 @@
       margin-top: 10px;
     }
     .drama-details {
-      text-align: center;
+      text-align: left;
       max-width: 420px;
-      padding: 1rem;
-    }
-    .drama-details img {
       width: 100%;
-      border-radius: 10px;
-      margin-bottom: 1rem;
+      padding: 1rem 1rem 0;
+    }
+    .drama-header {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .drama-header img {
+      width: 90px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .drama-info h3 {
+      margin: 0 0 0.25rem;
+      font-size: 1.25rem;
+    }
+    .drama-info p {
+      margin: 0.25rem 0;
+      font-size: 0.9rem;
+      color: #ccc;
     }
     .episode-section {
       max-width: 420px;
       width: 100%;
+      padding: 1rem;
       text-align: center;
     }
     .episode-buttons {
@@ -122,10 +139,14 @@
 
     function renderDetails(data) {
       dramaDetails.innerHTML = `
-        <h3>${data.title}</h3>
-        <img src="${data.image || 'https://via.placeholder.com/300x450?text=No+Image'}" alt="${data.title}">
-        <p>${data.description || ''}</p>
-        <p>Total Episodes: ${data.episodes}</p>
+        <div class="drama-header">
+          <img src="${data.image || 'https://via.placeholder.com/90x120?text=No+Image'}" alt="${data.title}">
+          <div class="drama-info">
+            <h3>${data.title}</h3>
+            <p>${data.description || ''}</p>
+            <p>Total Episodes: ${data.episodes}</p>
+          </div>
+        </div>
       `;
     }
 
