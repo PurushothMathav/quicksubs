@@ -38,7 +38,8 @@
       padding: 0 1rem;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-start;
+      gap: 1rem;
     }
 
     .back-btn {
@@ -54,6 +55,7 @@
       gap: 0.5rem;
       transition: all 0.3s ease;
       box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+      flex-shrink: 0;
     }
 
     .back-btn:hover {
@@ -69,9 +71,7 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      text-align: center;
       flex: 1;
-      margin: 0 1rem;
     }
 
     /* Main Content */
@@ -134,6 +134,24 @@
       background: #000;
       border-radius: 15px;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    video::cue {
+      background: rgba(0, 0, 0, 0.8);
+      color: #ffffff;
+      font-size: 16px;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-weight: 600;
+      text-align: center;
+      line-height: 1.4;
+      padding: 8px 12px;
+      border-radius: 6px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    video::-webkit-media-text-track-display {
+      bottom: 80px;
     }
 
     video::-webkit-media-controls-panel {
@@ -360,11 +378,12 @@
     @media (max-width: 768px) {
       .header-content {
         padding: 0 0.5rem;
+        justify-content: flex-start;
       }
 
       .page-title {
         font-size: 1rem;
-        margin: 0 0.5rem;
+        margin-left: 0;
       }
 
       .back-btn {
@@ -404,18 +423,21 @@
         padding: 0.6rem 0.4rem;
         font-size: 0.8rem;
       }
+
+      video::cue {
+        font-size: 14px;
+        padding: 6px 10px;
+      }
     }
 
     @media (max-width: 480px) {
       .header-content {
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         gap: 0.5rem;
       }
 
       .page-title {
-        order: -1;
-        width: 100%;
-        margin: 0 0 0.5rem 0;
+        font-size: 0.9rem;
       }
 
       .episode-info {
@@ -433,6 +455,11 @@
       .stat-item {
         font-size: 0.75rem;
         padding: 0.25rem 0.5rem;
+      }
+
+      video::cue {
+        font-size: 12px;
+        padding: 4px 8px;
       }
     }
 
@@ -530,7 +557,8 @@
 
   <script>
     const urlParams = new URLSearchParams(window.location.search);
-    const jsonFile = urlParams.get('show');
+    let jsonFile = urlParams.get('show');
+    const episodeParam = urlParams.get('e');
     const video = document.getElementById('video-player');
     const episodeLabel = document.getElementById('episode-number');
     const episodeTitle = document.getElementById('episode-title');
@@ -545,6 +573,14 @@
     let showData;
     let currentEpisode = 0;
     let subtitleBase = "";
+
+    // Handle URL processing
+    if (jsonFile) {
+      // Add .json extension if not present
+      if (!jsonFile.endsWith('.json')) {
+        jsonFile += '.json';
+      }
+    }
 
     // Initialize
     if (!jsonFile) {
@@ -566,11 +602,14 @@
         subtitleBase = `https://purushothmathav.github.io/quicksubs/subs/${showTitle}/`;
 
         document.title = showData.title;
-        pageTitle.textContent = showData.title;
         
         renderDetails(showData);
         createEpisodeButtons(showData.episodes_list);
-        loadEpisode(0);
+        
+        // Load specific episode if provided in URL
+        const targetEpisode = episodeParam ? parseInt(episodeParam) - 1 : 0;
+        const episodeIndex = Math.max(0, Math.min(targetEpisode, showData.episodes_list.length - 1));
+        loadEpisode(episodeIndex);
         
         showLoading(false);
       } catch (error) {
@@ -651,7 +690,8 @@
       currentEpisode = index;
       const ep = showData.episodes_list[index];
       
-      // Update UI
+      // Update UI - Show only episode number in header
+      pageTitle.textContent = `Episode ${ep.name}`;
       episodeLabel.textContent = `Episode ${ep.name}`;
       episodeTitle.textContent = showData.title;
       
@@ -679,15 +719,13 @@
       // Update navigation buttons
       updateNavigationButtons();
 
-      // Load and play video
+      // Load and play video immediately
       video.load();
       
-      // Auto-play after a short delay
-      setTimeout(() => {
-        video.play().catch(e => {
-          console.log('Auto-play prevented by browser policy');
-        });
-      }, 500);
+      // Auto-play immediately
+      video.play().catch(e => {
+        console.log('Auto-play prevented by browser policy');
+      });
 
       // Scroll to top on mobile
       if (window.innerWidth <= 768) {
@@ -705,16 +743,8 @@
 
     video.addEventListener('ended', () => {
       if (currentEpisode + 1 < showData.episodes_list.length) {
-        // Show auto-play notification
-        autoplayNotification.classList.add('show');
-        setTimeout(() => {
-          autoplayNotification.classList.remove('show');
-        }, 2000);
-        
-        // Auto-play next episode after 3 seconds
-        setTimeout(() => {
-          loadEpisode(currentEpisode + 1);
-        }, 3000);
+        // Auto-play next episode immediately for mini dramas
+        loadEpisode(currentEpisode + 1);
       }
     });
 
