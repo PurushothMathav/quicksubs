@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title id="page-title">CMD Player</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%);
+      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Header Styles */
+    .header {
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 0.75rem 0;
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .back-btn {
+      background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      padding: 0.6rem 1.2rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+      flex-shrink: 0;
+    }
+
+    .back-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+      color: #fff;
+    }
+
+    .page-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+    }
+
+    /* Main Content */
+    .main-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .player-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    /* Episode Info */
+    .episode-info {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 1rem 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .episode-number {
+      font-size: 1.3rem;
+      font-weight: 700;
+      background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Video Player */
+    .video-container {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 1rem;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    video {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 9 / 16;
+      background: #000;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Loading Overlay */
+    .loading-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 10px;
+      padding: 1rem;
+      display: none;
+    }
+
+    .loading-spinner {
+      width: 30px;
+      height: 30px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top: 3px solid #4ecdc4;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Drama Details */
+    .drama-details {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .drama-header {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .drama-header img {
+      width: 90px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .drama-info h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.3rem;
+      font-weight: 700;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .drama-info p {
+      margin: 0.3rem 0;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.4;
+    }
+
+    .drama-stats {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      background: rgba(78, 205, 196, 0.1);
+      border: 1px solid rgba(78, 205, 196, 0.3);
+      border-radius: 8px;
+      padding: 0.3rem 0.6rem;
+      font-size: 0.8rem;
+      color: #4ecdc4;
+    }
+
+    /* Episode Section */
+    .episode-section {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .episode-buttons {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .episode-buttons button {
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 0.7rem 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .episode-buttons button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .episode-buttons button:hover::before {
+      left: 100%;
+    }
+
+    .episode-buttons button:hover {
+      transform: translateY(-2px);
+      border-color: rgba(78, 205, 196, 0.5);
+      box-shadow: 0 5px 15px rgba(78, 205, 196, 0.2);
+    }
+
+    .episode-buttons button.active {
+      background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 5px 20px rgba(78, 205, 196, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .episode-buttons button.active::before {
+      display: none;
+    }
+
+    /* Navigation Buttons */
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      width: 100%;
+      max-width: 420px;
+      margin-top: 1rem;
+    }
+
+    .nav-btn {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border-radius: 12px;
+      padding: 0.8rem 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .nav-btn:hover:not(:disabled) {
+      background: rgba(78, 205, 196, 0.1);
+      border-color: rgba(78, 205, 196, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Error State */
+    .error-message {
+      text-align: center;
+      background: rgba(255, 107, 107, 0.1);
+      border: 1px solid rgba(255, 107, 107, 0.3);
+      border-radius: 10px;
+      padding: 2rem;
+      color: #ff6b6b;
+    }
+
+    .error-message i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .header-content {
+        padding: 0 0.5rem;
+        position: relative;
+      }
+
+      .page-title {
+        font-size: 1rem;
+        margin-left: 0;
+      }
+
+      .back-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+
+      .main-content {
+        padding: 0.5rem;
+      }
+
+      .video-container {
+        padding: 0.75rem;
+        border-radius: 15px;
+      }
+
+      .drama-details,
+      .episode-section {
+        padding: 1rem;
+      }
+
+      .drama-header {
+        gap: 0.75rem;
+      }
+
+      .drama-header img {
+        width: 75px;
+        height: 100px;
+      }
+
+      .episode-buttons {
+        grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+        gap: 0.6rem;
+      }
+
+      .episode-buttons button {
+        padding: 0.6rem 0.4rem;
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header-content {
+        flex-wrap: nowrap;
+        gap: 0.5rem;
+        position: relative;
+      }
+
+      .page-title {
+        font-size: 0.9rem;
+      }
+
+      .episode-info {
+        padding: 0.75rem 1rem;
+      }
+
+      .episode-number {
+        font-size: 1.1rem;
+      }
+
+      .drama-stats {
+        gap: 0.5rem;
+      }
+
+      .stat-item {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+      }
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(45deg, #45b7d1, #4ecdc4);
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-content">
+      <a href="index.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Back
+      </a>
+      <div class="page-title" id="page-title">CMD Player</div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="player-container">
+      <!-- Video Player -->
+      <div class="video-container">
+        <video id="video-player" controls playsinline preload="metadata"></video>
+        <div class="loading-overlay" id="loading-overlay">
+          <div class="loading-spinner"></div>
+        </div>
+      </div>
+
+      <!-- Navigation Buttons -->
+      <div class="nav-buttons">
+        <button class="nav-btn" id="prev-btn" onclick="previousEpisode()">
+          <i class="fas fa-step-backward"></i> Previous
+        </button>
+        <button class="nav-btn" id="next-btn" onclick="nextEpisode()">
+          Next <i class="fas fa-step-forward"></i>
+        </button>
+      </div>
+
+      <!-- Drama Details -->
+      <div class="drama-details" id="drama-details"></div>
+
+      <!-- Episode Section -->
+      <div class="episode-section">
+        <h5 class="section-title">
+          <i class="fas fa-list"></i> Episodes
+        </h5>
+        <div class="episode-buttons" id="episode-buttons"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    let jsonFile = urlParams.get('show');
+    const episodeParam = urlParams.get('e');
+    const video = document.getElementById('video-player');
+    const buttonGroup = document.getElementById('episode-buttons');
+    const dramaDetails = document.getElementById('drama-details');
+    const pageTitle = document.getElementById('page-title');
+    const loadingOverlay = document.getElementById('loading-overlay');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+
+    let showData;
+    let currentEpisode = 0;
+    let subtitleBase = "";
+
+    // Handle URL processing
+    if (jsonFile) {
+      // Add .json extension if not present
+      if (!jsonFile.endsWith('.json')) {
+        jsonFile += '.json';
+      }
+    }
+
+    // Initialize
+    if (!jsonFile) {
+      showError("No show selected");
+    } else {
+      loadShow();
+    }
+
+    async function loadShow() {
+      try {
+        showLoading(true);
+        const response = await fetch(jsonFile);
+        if (!response.ok) throw new Error('Failed to load show data');
+        
+        const json = await response.json();
+        showData = json.data;
+
+        const showTitle = decodeURIComponent(jsonFile).replace(/^json\//, '').replace(/\.json$/, '');
+        subtitleBase = `https://purushothmathav.github.io/quicksubs/subs/${showTitle}/`;
+
+        // Set the document title to the show title
+        document.title = showData.title;
+        
+        renderDetails(showData);
+        createEpisodeButtons(showData.episodes_list);
+        
+        // Load specific episode if provided in URL
+        const targetEpisode = episodeParam ? parseInt(episodeParam) - 1 : 0;
+        const episodeIndex = Math.max(0, Math.min(targetEpisode, showData.episodes_list.length - 1));
+        loadEpisode(episodeIndex);
+        
+        showLoading(false);
+      } catch (error) {
+        console.error('Error loading show:', error);
+        showError("Failed to load show data");
+      }
+    }
+
+    function showLoading(show) {
+      loadingOverlay.style.display = show ? 'flex' : 'none';
+    }
+
+    function showError(message) {
+      document.querySelector('.player-container').innerHTML = `
+        <div class="error-message">
+          <i class="fas fa-exclamation-triangle"></i>
+          <h3>Error</h3>
+          <p>${message}</p>
+        </div>
+      `;
+    }
+
+    function renderDetails(data) {
+      const totalEpisodes = data.episodes || data.episodes_list.length;
+      dramaDetails.innerHTML = `
+        <div class="drama-header">
+          <img src="${data.image || 'https://via.placeholder.com/90x120/333/fff?text=No+Image'}" alt="${data.title}" loading="lazy">
+          <div class="drama-info">
+            <h3>${data.title}</h3>
+            <p>${data.description || 'No description available'}</p>
+            <div class="drama-stats">
+              <span class="stat-item">
+                <i class="fas fa-film"></i> ${totalEpisodes} Episodes
+              </span>
+              <span class="stat-item">
+                <i class="fas fa-clock"></i> Mini Drama
+              </span>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function createEpisodeButtons(episodes) {
+      buttonGroup.innerHTML = '';
+      episodes.forEach((ep, index) => {
+        const btn = document.createElement('button');
+        btn.textContent = ep.name;
+        btn.onclick = () => loadEpisode(index);
+        btn.setAttribute('data-episode', index);
+        buttonGroup.appendChild(btn);
+      });
+      updateNavigationButtons();
+    }
+
+    function updateNavigationButtons() {
+      if (!showData) return;
+      
+      prevBtn.disabled = currentEpisode === 0;
+      nextBtn.disabled = currentEpisode >= showData.episodes_list.length - 1;
+    }
+
+    function updatePageTitle() {
+      if (!showData || !showData.episodes_list[currentEpisode]) return;
+      
+      const episodeName = showData.episodes_list[currentEpisode].name;
+      const showTitle = showData.title;
+      
+      // Update the header title to show current episode
+      pageTitle.textContent = `${showTitle} - Episode ${episodeName}`;
+      
+      // Also update the document title
+      document.title = `${showTitle} - Episode ${episodeName}`;
+    }
+
+    function previousEpisode() {
+      if (currentEpisode > 0) {
+        loadEpisode(currentEpisode - 1);
+      }
+    }
+
+    function nextEpisode() {
+      if (currentEpisode < showData.episodes_list.length - 1) {
+        loadEpisode(currentEpisode + 1);
+      }
+    }
+
+    function loadEpisode(index) {
+      if (!showData || index < 0 || index >= showData.episodes_list.length) return;
+      
+      currentEpisode = index;
+      const ep = showData.episodes_list[index];
+      
+      // Update page title to show current episode
+      updatePageTitle();
+      
+      // Update video
+      video.src = ep.url;
+      
+      // Remove old subtitle track
+      const oldTrack = video.querySelector('track');
+      if (oldTrack) oldTrack.remove();
+
+      // Add new subtitle track (simple implementation)
+      const subtitle = document.createElement('track');
+      subtitle.kind = 'subtitles';
+      subtitle.label = 'English';
+      subtitle.srclang = 'en';
+      subtitle.src = `${subtitleBase}${ep.name}.vtt`;
+      subtitle.default = true;
+      video.appendChild(subtitle);
+
+      // Update active button
+      const allBtns = buttonGroup.querySelectorAll('button');
+      allBtns.forEach(btn => btn.classList.remove('active'));
+      if (allBtns[index]) allBtns[index].classList.add('active');
+
+      // Update navigation buttons
+      updateNavigationButtons();
+
+      // Load and play video immediately
+      video.load();
+      
+      // Auto-play immediately
+      video.play().catch(e => {
+        console.log('Auto-play prevented by browser policy');
+      });
+
+      // Scroll to top on mobile
+      if (window.innerWidth <= 768) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    // Video event listeners
+    video.addEventListener('loadstart', () => showLoading(true));
+    video.addEventListener('canplay', () => showLoading(false));
+    video.addEventListener('error', () => {
+      showLoading(false);
+      console.error('Video failed to load');
+    });
+
+    video.addEventListener('ended', () => {
+      if (currentEpisode + 1 < showData.episodes_list.length) {
+        // Auto-play next episode immediately for mini dramas
+        loadEpisode(currentEpisode + 1);
+      }
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT') return;
+      
+      switch(e.key) {
+        case 'ArrowLeft':
+          e.preventDefault();
+          previousEpisode();
+          break;
+        case 'ArrowRight':
+          e.preventDefault();
+          nextEpisode();
+          break;
+        case ' ':
+          e.preventDefault();
+          if (video.paused) {
+            video.play();
+          } else {
+            video.pause();
+          }
+          break;
+      }
+    });
+
+    // Handle page visibility change (pause video when tab is not active)
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden && !video.paused) {
+        video.pause();
+      }
+    });
+  </script>
+</body>
+</html>
