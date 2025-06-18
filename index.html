@@ -5,87 +5,480 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>Chinese Mini Drama - Home</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
     body {
-      background-color: #000;
+      background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%);
       color: #fff;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Header Styles */
+    .header {
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 1rem 0;
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .main-title {
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: bold;
+      margin-bottom: 1rem;
       text-align: center;
+      position: relative;
     }
-    h1 {
-      margin: 1rem 0;
+
+    .main-title::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+      border-radius: 2px;
     }
+
+    /* Search Bar Styles */
+    .search-container {
+      position: relative;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 1rem 1rem 1rem 3rem;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 25px;
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #4ecdc4;
+      box-shadow: 0 0 20px rgba(78, 205, 196, 0.3);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .search-input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 1.1rem;
+    }
+
+    .clear-search {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.6);
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      display: none;
+    }
+
+    .clear-search:hover {
+      color: #ff6b6b;
+      background: rgba(255, 107, 107, 0.1);
+    }
+
+    /* Content Styles */
+    .content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    .results-info {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
     .show-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 1rem;
-      padding: 1rem;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1.5rem;
+      padding: 0;
     }
+
     .show-card {
-      background: #111;
-      border-radius: 8px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
       overflow: hidden;
       cursor: pointer;
-      transition: transform 0.2s;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      backdrop-filter: blur(10px);
     }
+
+    .show-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, transparent, rgba(78, 205, 196, 0.1), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 1;
+    }
+
+    .show-card:hover::before {
+      opacity: 1;
+    }
+
     .show-card:hover {
-      transform: scale(1.03);
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 20px rgba(78, 205, 196, 0.2);
+      border-color: rgba(78, 205, 196, 0.3);
     }
+
     .show-card img {
       width: 100%;
       height: 240px;
       object-fit: cover;
+      transition: transform 0.3s ease;
     }
+
+    .show-card:hover img {
+      transform: scale(1.05);
+    }
+
     .show-title {
-      padding: 0.5rem;
-      font-size: 1rem;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      padding: 1rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      line-height: 1.3;
+      position: relative;
+      z-index: 2;
+      background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.8));
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .no-results i {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Loading Animation */
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-top: 3px solid #4ecdc4;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .header-content {
+        padding: 0 0.5rem;
+      }
+
+      .main-title {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .search-container {
+        margin: 0 0.5rem 1.5rem;
+      }
+
+      .content {
+        padding: 1rem 0.5rem;
+      }
+
+      .show-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
+      }
+
+      .show-card img {
+        height: 200px;
+      }
+
+      .show-title {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .show-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 0.8rem;
+      }
+
+      .show-card img {
+        height: 180px;
+      }
+    }
+
+    /* Smooth scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(45deg, #45b7d1, #4ecdc4);
     }
   </style>
 </head>
 <body>
-  <h1>📱 Chinese Mini Drama</h1>
-  <div class="show-grid" id="show-list"></div>
+  <div class="header">
+    <div class="header-content">
+      <h1 class="main-title">
+        <i class="fas fa-play-circle"></i> Chinese Mini Drama
+      </h1>
+      
+      <div class="search-container">
+        <i class="fas fa-search search-icon"></i>
+        <input 
+          type="text" 
+          class="search-input" 
+          id="searchInput" 
+          placeholder="Search for dramas..."
+          autocomplete="off"
+        />
+        <button class="clear-search" id="clearSearch">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="results-info" id="resultsInfo"></div>
+    <div class="loading" id="loading">
+      <div class="loading-spinner"></div>
+    </div>
+    <div class="show-grid" id="showList"></div>
+    <div class="no-results" id="noResults" style="display: none;">
+      <i class="fas fa-search"></i>
+      <h3>No dramas found</h3>
+      <p>Try adjusting your search terms</p>
+    </div>
+  </div>
 
   <script>
-    const showListEl = document.getElementById("show-list");
+    const showListEl = document.getElementById("showList");
+    const loadingEl = document.getElementById("loading");
+    const searchInput = document.getElementById("searchInput");
+    const clearSearch = document.getElementById("clearSearch");
+    const resultsInfo = document.getElementById("resultsInfo");
+    const noResults = document.getElementById("noResults");
 
-    // List of JSON files in the json folder (you can automate this with a backend or a manifest.json)
+    // List of JSON files
     const shows = [
       "json/Calling%20You%20From%20the%20Center%20of%20the%20World.json",
       "json/Exclusive%20CEO.json",
       "json/Grumpy%20Princess.json",
-	  "json/Her%20Majesty's%20pet.json",
-	  "json/I%20am%20Qingjun.json",
-	  "json/Lie%20to%20Me.json",
-	  "json/Mr.%20Fu's%20wife.json",
-	  "json/Never%20Escape.json",
-	  "json/Only%20love%20you.json",
-	  "json/Pregnant%20Secretary.json",
-	  "json/Real%20Fake%20Bride.json",
-	  "json/She%20is%20the%20CEO's%20white%20moonlight.json",
-	  "json/Your%20Majesty,%20are%20you%20in%20love%20today.json",
-	  "json/falling%20in%20love%20love.json",
-	  "json/heart%20wife.json"
+      "json/Her%20Majesty's%20pet.json",
+      "json/I%20am%20Qingjun.json",
+      "json/Lie%20to%20Me.json",
+      "json/Mr.%20Fu's%20wife.json",
+      "json/Never%20Escape.json",
+      "json/Only%20love%20you.json",
+      "json/Pregnant%20Secretary.json",
+      "json/Real%20Fake%20Bride.json",
+      "json/She%20is%20the%20CEO's%20white%20moonlight.json",
+      "json/Your%20Majesty,%20are%20you%20in%20love%20today.json",
+      "json/falling%20in%20love%20love.json",
+      "json/heart%20wife.json"
     ];
 
-    shows.forEach(file => {
-      fetch(file)
-        .then(res => res.json())
-        .then(data => {
-          const show = data.data;
-          const card = document.createElement("div");
-          card.className = "show-card";
-          card.onclick = () => location.href = `player.html?show=${encodeURIComponent(file)}`;
-          card.innerHTML = `
-            <img src="${show.image || 'https://via.placeholder.com/150x240?text=No+Image'}" alt="${show.title}">
-            <div class="show-title">${show.title}</div>
-          `;
-          showListEl.appendChild(card);
-        });
+    let allShows = [];
+    let filteredShows = [];
+
+    // Load all shows
+    async function loadShows() {
+      try {
+        const promises = shows.map(file => 
+          fetch(file).then(res => res.json()).then(data => ({
+            file,
+            data: data.data
+          }))
+        );
+        
+        allShows = await Promise.all(promises);
+        filteredShows = [...allShows];
+        renderShows();
+        updateResultsInfo();
+      } catch (error) {
+        console.error('Error loading shows:', error);
+        showListEl.innerHTML = '<div class="no-results"><i class="fas fa-exclamation-triangle"></i><h3>Error loading dramas</h3><p>Please try refreshing the page</p></div>';
+      } finally {
+        loadingEl.style.display = 'none';
+      }
+    }
+
+    // Render shows
+    function renderShows() {
+      showListEl.innerHTML = '';
+      
+      if (filteredShows.length === 0) {
+        noResults.style.display = 'block';
+        return;
+      }
+      
+      noResults.style.display = 'none';
+      
+      filteredShows.forEach(({ file, data: show }) => {
+        const card = document.createElement("div");
+        card.className = "show-card";
+        card.onclick = () => location.href = `player.html?show=${encodeURIComponent(file)}`;
+        
+        const imageUrl = show.image || 'https://via.placeholder.com/180x240/333/fff?text=No+Image';
+        
+        card.innerHTML = `
+          <img src="${imageUrl}" alt="${show.title}" loading="lazy">
+          <div class="show-title">${show.title}</div>
+        `;
+        
+        showListEl.appendChild(card);
+      });
+    }
+
+    // Search functionality
+    function searchShows(query) {
+      const searchTerm = query.toLowerCase().trim();
+      
+      if (!searchTerm) {
+        filteredShows = [...allShows];
+      } else {
+        filteredShows = allShows.filter(({ data: show }) => 
+          show.title.toLowerCase().includes(searchTerm)
+        );
+      }
+      
+      renderShows();
+      updateResultsInfo();
+    }
+
+    // Update results info
+    function updateResultsInfo() {
+      const total = allShows.length;
+      const shown = filteredShows.length;
+      const searchTerm = searchInput.value.trim();
+      
+      if (searchTerm) {
+        resultsInfo.textContent = `Showing ${shown} of ${total} dramas for "${searchTerm}"`;
+      } else {
+        resultsInfo.textContent = `Showing all ${total} dramas`;
+      }
+    }
+
+    // Search input handlers
+    searchInput.addEventListener('input', (e) => {
+      const value = e.target.value;
+      
+      if (value) {
+        clearSearch.style.display = 'block';
+      } else {
+        clearSearch.style.display = 'none';
+      }
+      
+      // Debounce search
+      clearTimeout(searchInput.searchTimeout);
+      searchInput.searchTimeout = setTimeout(() => {
+        searchShows(value);
+      }, 300);
     });
+
+    // Clear search
+    clearSearch.addEventListener('click', () => {
+      searchInput.value = '';
+      clearSearch.style.display = 'none';
+      searchShows('');
+      searchInput.focus();
+    });
+
+    // Enter key search
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        clearTimeout(searchInput.searchTimeout);
+        searchShows(e.target.value);
+      }
+    });
+
+    // Initialize
+    loadShows();
   </script>
 </body>
 </html>
