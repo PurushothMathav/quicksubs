@@ -65,6 +65,7 @@
 
     let showData;
     let currentEpisode = 0;
+    let subtitleBase = "";
 
     if (!jsonFile) {
       episodeLabel.textContent = "❌ No show selected";
@@ -73,6 +74,11 @@
         .then(res => res.json())
         .then(json => {
           showData = json.data;
+
+          // Extract base title from JSON filename
+          const showTitle = decodeURIComponent(jsonFile).replace(/^json\//, '').replace(/\.json$/, '');
+          subtitleBase = `https://purushothmathav.github.io/quicksubs/subs/${showTitle}/`;
+
           createEpisodeButtons(showData.episodes_list);
           loadEpisode(0);
         });
@@ -108,7 +114,7 @@
       subtitle.kind = 'subtitles';
       subtitle.label = 'English';
       subtitle.srclang = 'en';
-      subtitle.src = `https://raw.githubusercontent.com/PurushothMathav/quicksubs/main/subtitles/${ep.name}.vtt`;
+      subtitle.src = `${subtitleBase}${ep.name}.vtt`;
       subtitle.default = true;
       video.appendChild(subtitle);
 
