@@ -900,7 +900,7 @@
       filteredShows.forEach(({ file, data: show }) => {
         const card = document.createElement("div");
         card.className = "show-card";
-        card.onclick = () => location.href = `player.html?show=${encodeURIComponent(file)}`;
+        card.onclick = () => location.href = `player.html?show=${encodeURIComponent(file)}&sub=${hasSoftSub ? 'soft' : 'hard'}`;
         
         const imageUrl = show.image || 'https://via.placeholder.com/180x240/333/fff?text=No+Image';
 		const hasSoftSub =

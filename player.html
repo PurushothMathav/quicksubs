@@ -448,6 +448,40 @@
     ::-webkit-scrollbar-thumb:hover {
       background: linear-gradient(45deg, #45b7d1, #4ecdc4);
     }
+	
+/* Waterdrop subtitle background */
+.subtitle-bar {
+  position: absolute;
+  bottom: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 93%;
+  max-width: 420px;
+  min-height: 3.5em;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  border-radius: 5px;
+  padding: 0.5em 1em;
+  text-align: center;
+  color: white;
+  font-size: 1.05rem;
+  line-height: 1.4;
+  font-weight: 500;
+  pointer-events: none;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Optional subtitle fade-in animation */
+@keyframes fadeSub {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { opacity: 0; }
+}
+	
   </style>
 </head>
 <body>
@@ -466,6 +500,7 @@
       <!-- Video Player -->
       <div class="video-container">
         <video id="video-player" controls playsinline preload="metadata"></video>
+		<div class="subtitle-bar" id="subtitleBar"></div>
         <div class="loading-overlay" id="loading-overlay">
           <div class="loading-spinner"></div>
         </div>
@@ -505,6 +540,8 @@
     const loadingOverlay = document.getElementById('loading-overlay');
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
+	const subType = urlParams.get('sub');  // "soft" or "hard"
+
 
     let showData;
     let currentEpisode = 0;
@@ -727,6 +764,26 @@
       }
     });
   </script>
+  <script>
+const subtitleBar = document.getElementById('subtitleBar');
+if (subType !== 'soft') subtitleBar.style.display = 'none';
+const track = video.textTracks[0];
+
+// Wait for subtitles to load
+video.addEventListener('loadedmetadata', () => {
+  const track = video.textTracks[0];
+  if (track) {
+    track.mode = 'hidden'; // Hide browser's default captions
+
+    track.oncuechange = () => {
+      const activeCue = track.activeCues[0];
+      subtitleBar.innerHTML = activeCue ? activeCue.text : '';
+      subtitleBar.style.animation = 'fadeSub 4s ease-out';
+    };
+  }
+});
+</script>
+
   <script>
   document.getElementById("backBtn").addEventListener("click", () => {
     // Go back if there's history, else fallback to index.html
