@@ -546,6 +546,7 @@
     let showData;
     let currentEpisode = 0;
     let subtitleBase = "";
+	let showTitle = "";
 
     // Handle URL processing
     if (jsonFile) {
@@ -562,35 +563,51 @@
       loadShow();
     }
 
+			// Load last watched episode
+function getSavedProgress(title) {
+  const history = JSON.parse(localStorage.getItem('watchHistory') || '{}');
+  return history[title] ?? 0;
+}
+	
     async function loadShow() {
-      try {
-        showLoading(true);
-        const response = await fetch(jsonFile);
-        if (!response.ok) throw new Error('Failed to load show data');
-        
-        const json = await response.json();
-        showData = json.data;
+  try {
+    showLoading(true);
 
-        const showTitle = decodeURIComponent(jsonFile).replace(/^json\//, '').replace(/\.json$/, '');
-        subtitleBase = `https://purushothmathav.github.io/quicksubs/subs/${showTitle}/`;
+    // Fetch the show JSON file
+    const response = await fetch(jsonFile);
+    if (!response.ok) throw new Error('Failed to load show data');
 
-        // Set the document title to the show title
-        document.title = showData.title;
-        
-        renderDetails(showData);
-        createEpisodeButtons(showData.episodes_list);
-        
-        // Load specific episode if provided in URL
-        const targetEpisode = episodeParam ? parseInt(episodeParam) - 1 : 0;
-        const episodeIndex = Math.max(0, Math.min(targetEpisode, showData.episodes_list.length - 1));
-        loadEpisode(episodeIndex);
-        
-        showLoading(false);
-      } catch (error) {
-        console.error('Error loading show:', error);
-        showError("Failed to load show data");
-      }
-    }
+    // Parse the show data
+    const json = await response.json();
+    showData = json.data;
+
+    // Set showTitle and subtitle path
+    showTitle = decodeURIComponent(jsonFile).replace(/^json\//, '').replace(/\.json$/, '');
+    subtitleBase = `https://purushothmathav.github.io/quicksubs/subs/${showTitle}/`;
+
+    // Set the document title to the show title
+    document.title = showData.title;
+
+    // Render drama details and episode buttons
+    renderDetails(showData);
+    createEpisodeButtons(showData.episodes_list);
+
+    // Determine episode to load: URL param > saved progress > default (0)
+    const savedEpisode = getSavedProgress(showTitle);
+    const targetEpisode = episodeParam ? parseInt(episodeParam) - 1 : savedEpisode;
+    const episodeIndex = Math.max(0, Math.min(targetEpisode, showData.episodes_list.length - 1));
+
+    // Load the episode
+    loadEpisode(episodeIndex);
+
+    showLoading(false);
+  } catch (error) {
+    console.error('Error loading show:', error);
+    showError("Failed to load show data");
+  }
+}
+
+
 
     function showLoading(show) {
       loadingOverlay.style.display = show ? 'flex' : 'none';
@@ -645,6 +662,7 @@
 		const total = showData.episodes_list.length;
 		const prevLabel = document.getElementById("prev-label");
 		const nextLabel = document.getElementById("next-label");
+		
 
 		if (currentEpisode > 0) {
 			prevBtn.disabled = false;
@@ -661,6 +679,7 @@
 			nextBtn.disabled = true;
 			nextLabel.textContent = `Next`;
 		}
+
 	}
 
 
@@ -734,7 +753,17 @@
       if (window.innerWidth <= 768) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
+	  saveWatchProgress();
     }
+	
+	// Save last watched episode to localStorage
+function saveWatchProgress() {
+  if (!showTitle) return;
+  const history = JSON.parse(localStorage.getItem('watchHistory') || '{}');
+  history[showTitle] = currentEpisode;
+  localStorage.setItem('watchHistory', JSON.stringify(history));
+}
+
 
     // Video event listeners
     video.addEventListener('loadstart', () => showLoading(true));
