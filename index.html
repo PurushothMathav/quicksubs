@@ -137,13 +137,15 @@
       margin-bottom: 2rem;
       color: rgba(255, 255, 255, 0.7);
     }
-
+	/*
     .show-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
       gap: 1.5rem;
       padding: 0;
     }
+	*/
+	.show-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
 
     .show-card {
       background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
@@ -275,14 +277,15 @@
       .content {
         padding: 1rem 0.5rem;
       }
-
+	.show-grid { grid-template-columns: repeat(3, 1fr); }
+	/*
       .show-grid {
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
         gap: 1rem;
-      }
+      } */
 
       .show-card img {
-        height: 200px;
+        height: 150px;
       }
 
       .show-title {
