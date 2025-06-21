@@ -550,21 +550,18 @@
 
     // Handle URL processing
     if (jsonFile) {
-  // Decode fully
-  jsonFile = decodeURIComponent(jsonFile);
+      // Add .json extension if not present
+      if (!jsonFile.endsWith('.json')) {
+        jsonFile += '.json';
+      }
+    }
 
-  // Prepend json/ and append .json
-  if (!jsonFile.endsWith('.json')) {
-    jsonFile = `json/${jsonFile}.json`;
-  }
-}
-
-if (!jsonFile) {
-  showError("No show selected");
-} else {
-  console.log("📂 Fetching JSON:", jsonFile); // Debug line
-  loadShow();
-}
+    // Initialize
+    if (!jsonFile) {
+      showError("No show selected");
+    } else {
+      loadShow();
+    }
 
 			// Load last watched episode
 function getSavedProgress(title) {
@@ -572,12 +569,6 @@ function getSavedProgress(title) {
   return history[title] ?? 0;
 }
 	
-	function saveProgress(title, epIndex) {
-  const history = JSON.parse(localStorage.getItem('watchHistory') || '{}');
-  history[title] = epIndex;
-  localStorage.setItem('watchHistory', JSON.stringify(history));
-}
-
     async function loadShow() {
   try {
     showLoading(true);
@@ -728,7 +719,6 @@ function getSavedProgress(title) {
       
       // Update video
       video.src = ep.url;
-	  saveProgress(showTitle, currentEpisode);
       
       // Remove old subtitle track
       const oldTrack = video.querySelector('track');

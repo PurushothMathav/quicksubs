@@ -1,4 +1,4 @@
-const CACHE_NAME = 'v2106251030';
+const CACHE_NAME = 'v2106251230';
 const OFFLINE_URLS = [
   '/quicksubs/index.html',
   '/quicksubs/player.html',

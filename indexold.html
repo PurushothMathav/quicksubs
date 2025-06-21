@@ -22,25 +22,17 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
     }
 
     /* Header Styles */
     .header {
-      background: rgba(0, 0, 0, 0.9);
-      backdrop-filter: blur(15px);
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       position: sticky;
       top: 0;
       z-index: 1000;
-      padding: 0.75rem 0;
-      transition: all 0.3s ease;
-    }
-
-    .header.scrolled {
-      background: rgba(0, 0, 0, 0.95);
-      padding: 0.5rem 0;
+      padding: 1rem 0;
     }
 
     .header-content {
@@ -54,12 +46,11 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      font-size: clamp(1.5rem, 5vw, 2.2rem);
-      font-weight: 700;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: bold;
       margin-bottom: 1rem;
       text-align: center;
       position: relative;
-      letter-spacing: -0.02em;
     }
 
     .main-title::after {
@@ -68,7 +59,7 @@
       bottom: -5px;
       left: 50%;
       transform: translateX(-50%);
-      width: 50px;
+      width: 60px;
       height: 3px;
       background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
       border-radius: 2px;
@@ -78,28 +69,26 @@
     .search-container {
       position: relative;
       max-width: 600px;
-      margin: 0 auto 1.5rem;
+      margin: 0 auto 2rem;
     }
 
     .search-input {
       width: 100%;
-      padding: 0.9rem 1rem 0.9rem 2.8rem;
-      border: 2px solid rgba(255, 255, 255, 0.15);
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.08);
+      padding: 1rem 1rem 1rem 3rem;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 25px;
+      background: rgba(255, 255, 255, 0.05);
       color: #fff;
       font-size: 1rem;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.3s ease;
       backdrop-filter: blur(10px);
-      -webkit-appearance: none;
     }
 
     .search-input:focus {
       outline: none;
       border-color: #4ecdc4;
-      box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.15), 0 8px 25px rgba(0, 0, 0, 0.2);
-      background: rgba(255, 255, 255, 0.12);
-      transform: translateY(-1px);
+      box-shadow: 0 0 20px rgba(78, 205, 196, 0.3);
+      background: rgba(255, 255, 255, 0.1);
     }
 
     .search-input::placeholder {
@@ -108,129 +97,65 @@
 
     .search-icon {
       position: absolute;
-      left: 0.9rem;
+      left: 1rem;
       top: 50%;
       transform: translateY(-50%);
       color: rgba(255, 255, 255, 0.6);
-      font-size: 1rem;
-      pointer-events: none;
+      font-size: 1.1rem;
     }
 
     .clear-search {
       position: absolute;
-      right: 0.8rem;
+      right: 1rem;
       top: 50%;
       transform: translateY(-50%);
       background: none;
       border: none;
       color: rgba(255, 255, 255, 0.6);
       cursor: pointer;
-      font-size: 1rem;
-      padding: 0.4rem;
+      font-size: 1.1rem;
+      padding: 0.5rem;
       border-radius: 50%;
       transition: all 0.3s ease;
       display: none;
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     .clear-search:hover {
       color: #ff6b6b;
-      background: rgba(255, 107, 107, 0.15);
-    }
-
-    .clear-search.visible {
-      display: flex;
+      background: rgba(255, 107, 107, 0.1);
     }
 
     /* Content Styles */
     .content {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 1rem;
-    }
-
-    /* Filter Tabs */
-    .filter-tabs {
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
-      margin-bottom: 1.5rem;
-      padding: 0 0.5rem;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-    }
-
-    .filter-tabs::-webkit-scrollbar {
-      display: none;
-    }
-
-    .filter-tab {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: rgba(255, 255, 255, 0.8);
-      padding: 0.6rem 1.2rem;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      white-space: nowrap;
-      font-size: 0.9rem;
-      font-weight: 500;
-      backdrop-filter: blur(10px);
-    }
-
-    .filter-tab.active {
-      background: linear-gradient(45deg, #4ecdc4, #45b7d1);
-      border-color: transparent;
-      color: #000;
-      font-weight: 600;
-      transform: scale(1.05);
+      padding: 2rem 1rem;
     }
 
     .results-info {
       text-align: center;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
       color: rgba(255, 255, 255, 0.7);
-      font-size: 0.9rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
     }
-
-    .results-count {
-      background: rgba(78, 205, 196, 0.2);
-      color: #4ecdc4;
-      padding: 0.2rem 0.6rem;
-      border-radius: 12px;
-      font-weight: 600;
-      font-size: 0.8rem;
-    }
-
-    /* Improved Grid Layout */
+	/*
     .show-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1.5rem;
       padding: 0;
     }
+	*/
+	.show-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
 
-    /* Enhanced Card Design */
     .show-card {
-      background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 16px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
       overflow: hidden;
       cursor: pointer;
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       position: relative;
       backdrop-filter: blur(10px);
-      transform-origin: center;
     }
 
     .show-card::before {
@@ -251,75 +176,50 @@
     }
 
     .show-card:hover {
-      transform: translateY(-6px) scale(1.03);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(78, 205, 196, 0.25);
-      border-color: rgba(78, 205, 196, 0.4);
-    }
-
-    .show-card:active {
-      transform: translateY(-2px) scale(1.01);
-    }
-
-    .image-container {
-      position: relative;
-      overflow: hidden;
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 20px rgba(78, 205, 196, 0.2);
+      border-color: rgba(78, 205, 196, 0.3);
     }
 
     .show-card img {
       width: 100%;
-      height: 220px;
+      height: 240px;
       object-fit: cover;
-      transition: transform 0.4s ease;
+      transition: transform 0.3s ease;
     }
 
     .show-card:hover img {
-      transform: scale(1.08);
+      transform: scale(1.05);
     }
 
     .show-title {
-      padding: 0.9rem;
-      font-size: 0.9rem;
+      padding: 1rem;
+      font-size: 0.95rem;
       font-weight: 600;
       line-height: 1.3;
       position: relative;
       z-index: 2;
       background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.8));
-      min-height: 60px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
     }
 
-    .sub-tag {
-      display: inline-block;
-      margin-top: 0.4rem;
-      padding: 0.2rem 0.6rem;
-      font-size: 0.65rem;
-      font-weight: 700;
-      border-radius: 8px;
-      background-color: rgba(255, 255, 255, 0.2);
-      color: #fff;
-      backdrop-filter: blur(5px);
-      align-self: flex-start;
-      letter-spacing: 0.5px;
+    .no-results {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: rgba(255, 255, 255, 0.6);
     }
 
-    .sub-tag.soft {
-      background: linear-gradient(45deg, #4ecdc4, #45b7d1);
-      color: #000;
+    .no-results i {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      color: rgba(255, 255, 255, 0.3);
     }
 
-    .sub-tag.hard {
-      background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
-      color: #fff;
-    }
-
-    /* Loading States */
+    /* Loading Animation */
     .loading {
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 3rem;
+      padding: 2rem;
     }
 
     .loading-spinner {
@@ -335,120 +235,84 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+	
+	
+	.sub-tag {
+  display: inline-block;
+  margin-top: 0.3rem;
+  padding: 2px 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border-radius: 4px;
+  background-color: #444;
+  color: #fff;
+}
 
-    .no-results {
-      text-align: center;
-      padding: 4rem 2rem;
-      color: rgba(255, 255, 255, 0.6);
-    }
+.sub-tag.soft {
+  background-color: #4ecdc4;
+  color: #000;
+}
 
-    .no-results i {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      color: rgba(255, 255, 255, 0.3);
-    }
+.sub-tag.hard {
+  background-color: #ff6b6b;
+  color: #fff;
+}
 
-    /* Pull to Refresh Indicator */
-    .pull-refresh {
-      position: absolute;
-      top: -60px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(78, 205, 196, 0.9);
-      color: #000;
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      opacity: 0;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-    }
-
-    .pull-refresh.visible {
-      opacity: 1;
-      top: 10px;
-    }
-
-    /* Mobile Optimizations */
+	
+    /* Responsive Design */
     @media (max-width: 768px) {
       .header-content {
-        padding: 0 1rem;
-      }
-
-      .main-title {
-        font-size: 1.6rem;
-        margin-bottom: 0.8rem;
-      }
-
-      .search-container {
-        margin: 0 auto 1rem;
         padding: 0 0.5rem;
       }
 
-      .content {
-        padding: 1rem 0.8rem;
+      .main-title {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
       }
 
-      .show-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 0.8rem;
+      .search-container {
+        margin: 0 0.5rem 1.5rem;
       }
+
+      .content {
+        padding: 1rem 0.5rem;
+      }
+	 .show-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr) !important;
+	 }
+	 
+	/*
+      .show-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
+      }  */
 
       .show-card img {
-        height: 180px;
-      }
+        height: 150px;
+      } 
 
       .show-title {
-        padding: 0.7rem;
-        font-size: 0.85rem;
-        min-height: 55px;
-      }
-
-      .filter-tabs {
-        padding: 0 0.8rem;
-        margin-bottom: 1rem;
-      }
-
-      .filter-tab {
-        padding: 0.5rem 1rem;
-        font-size: 0.85rem;
-      }
+        padding: 0.75rem;
+        font-size: 0.9rem;
+      } 
     }
 
     @media (max-width: 480px) {
-      .main-title {
-        font-size: 1.4rem;
-      }
-
-      .search-input {
-        padding: 0.8rem 1rem 0.8rem 2.5rem;
-        font-size: 0.95rem;
-      }
-
       .show-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 0.6rem;
-      }
+		display: grid;
+		grid-template-columns: repeat(3, 1fr) !important;
+	 }
+ 
+	  /*
+	  .show-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 0.8rem;
+      } */
 
       .show-card img {
-        height: 160px;
-      }
-
-      .show-title {
-        padding: 0.6rem;
-        font-size: 0.8rem;
-        min-height: 50px;
-      }
-
-      .sub-tag {
-        font-size: 0.6rem;
-        padding: 0.15rem 0.5rem;
-      }
-
-      .content {
-        padding: 0.8rem 0.6rem;
-      }
+        height: 150px;
+      } 
     }
 
     /* Smooth scroll */
@@ -458,97 +322,39 @@
 
     /* Custom scrollbar */
     ::-webkit-scrollbar {
-      width: 6px;
+      width: 8px;
     }
 
     ::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.1);
     }
 
     ::-webkit-scrollbar-thumb {
       background: linear-gradient(45deg, #4ecdc4, #45b7d1);
-      border-radius: 3px;
+      border-radius: 4px;
     }
 
     ::-webkit-scrollbar-thumb:hover {
       background: linear-gradient(45deg, #45b7d1, #4ecdc4);
     }
-
-    /* Toast Animation */
-    @keyframes popin {
-      from {
-        opacity: 0;
-        transform: translateX(-50%) translateY(20px) scale(0.9);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0) scale(1);
-      }
-    }
-
-    @keyframes popout {
-      from {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0) scale(1);
-      }
-      to {
-        opacity: 0;
-        transform: translateX(-50%) translateY(-20px) scale(0.9);
-      }
-    }
-
-    /* Skeleton Loading */
-    .skeleton {
-      background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
-      background-size: 200% 100%;
-      animation: skeleton-loading 1.5s infinite;
-    }
-
-    @keyframes skeleton-loading {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-    }
-
-    .skeleton-card {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      overflow: hidden;
-    }
-
-    .skeleton-image {
-      width: 100%;
-      height: 220px;
-    }
-
-    .skeleton-text {
-      height: 16px;
-      margin: 0.5rem;
-      border-radius: 8px;
-    }
-
-    /* Improved touch targets */
-    @media (hover: none) and (pointer: coarse) {
-      .show-card:hover {
-        transform: none;
-        box-shadow: none;
-        border-color: rgba(255, 255, 255, 0.15);
-      }
-      
-      .show-card:active {
-        transform: scale(0.98);
-        opacity: 0.9;
-      }
-    }
   </style>
+  <!-- Toast Animation -->
+<style>
+@keyframes popin {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+}
+</style>
 </head>
 <body>
-  <div class="header" id="header">
+  <div class="header">
     <div class="header-content">
-      <div class="pull-refresh" id="pullRefresh">
-        <i class="fas fa-sync-alt"></i> Pull to refresh
-      </div>
-      
       <h1 class="main-title">
         <i class="fas fa-play-circle"></i> Chinese Mini Drama
       </h1>
@@ -559,7 +365,7 @@
           type="text" 
           class="search-input" 
           id="searchInput" 
-          placeholder="Search dramas..."
+          placeholder="Search for dramas..."
           autocomplete="off"
         />
         <button class="clear-search" id="clearSearch">
@@ -570,55 +376,54 @@
   </div>
 
   <div class="content">
-    <div class="filter-tabs" id="filterTabs">
-      <div class="filter-tab active" data-filter="all">All</div>
-      <div class="filter-tab" data-filter="soft">Soft Sub</div>
-      <div class="filter-tab" data-filter="hard">Hard Sub</div>
-      <div class="filter-tab" data-filter="continue">Continue Watching</div>
-    </div>
-
-    <div class="results-info" id="resultsInfo">
-      <span class="results-count" id="resultsCount">0</span>
-      <span id="resultsText">dramas available</span>
-    </div>
-    
+    <div class="results-info" id="resultsInfo"></div>
     <div class="loading" id="loading">
       <div class="loading-spinner"></div>
     </div>
-    
     <div class="show-grid" id="showList"></div>
-    
     <div class="no-results" id="noResults" style="display: none;">
       <i class="fas fa-search"></i>
       <h3>No dramas found</h3>
-      <p>Try adjusting your search or filters</p>
+      <p>Try adjusting your search terms</p>
     </div>
   </div>
   
-  <!-- Enhanced Offline Toast -->
-  <div id="offlineToast" style="
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(255, 255, 255, 0.95);
-    color: #333;
-    padding: 1.2rem;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    z-index: 9999;
-    display: none;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    width: 90%;
-    max-width: 320px;
-    text-align: center;
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-  ">
-    <div style="font-size: 2rem; margin-bottom: 0.5rem;">📡</div>
-    <div style="font-weight: 700; font-size: 1rem; margin-bottom: 0.3rem;">You're Offline</div>
-    <div style="font-size: 0.8rem; color: #666;">Check your connection and try again</div>
-  </div>
+  <!-- Lottie Player Script -->
+<script
+  src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"
+  type="module"
+></script>
+
+<!-- Offline Toast with Light Background -->
+<div id="offlineToast" style="
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  color: #333;
+  padding: 1rem;
+  border-radius: 16px;
+  font-size: 0.95rem;
+  z-index: 9999;
+  display: none;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 340px;
+  text-align: center;
+  animation: popin 0.4s ease;
+">
+  <dotlottie-player
+    src="https://lottie.host/4ddf76a0-7693-4bcd-ac45-a1a8ca855a64/9nMGTLOhnm.lottie"
+    background="transparent"
+    speed="1"
+    style="width: 200px; height: 200px; margin: 0 auto;"
+    loop
+    autoplay
+  ></dotlottie-player>
+  <div style="font-weight: 700; font-size: 1.05rem; margin-top: -10px;">You're Offline</div>
+  <div style="font-size: 0.85rem; color: #666;">Please check your internet connection and try again.</div>
+</div>
 
   <script>
     const showListEl = document.getElementById("showList");
@@ -626,16 +431,11 @@
     const searchInput = document.getElementById("searchInput");
     const clearSearch = document.getElementById("clearSearch");
     const resultsInfo = document.getElementById("resultsInfo");
-    const resultsCount = document.getElementById("resultsCount");
-    const resultsText = document.getElementById("resultsText");
     const noResults = document.getElementById("noResults");
-    const filterTabs = document.getElementById("filterTabs");
-    const header = document.getElementById("header");
-    const pullRefresh = document.getElementById("pullRefresh");
 
-    // Demo data for testing
+    // List of JSON files
     const shows = [
-	  "json/%28New%20version%29%20Dragon%20Temple.json",
+  "json/%28New%20version%29%20Dragon%20Temple.json",
   "json/A%20long%20journey%20home.json",
   "json/A%20marriage%20that%20cuts%20through%20all%20sorts%20of%20obstacles.json",
   "json/A%20marriage%20that%20has%20gone%20through%20many%20difficulties.json",
@@ -1122,425 +922,159 @@
   "json/Yubai%20listens%20to%20the%20evening%20boat.json",
   "json/Zishi%20Grocery%20Store.json",
   "json/%F0%9F%94%A5Cross-Border%20Possession.json"
-    ];
+];
 
     let allShows = [];
     let filteredShows = [];
-    let currentFilter = 'all';
-    let searchTerm = '';
-    let touchStartY = 0;
-    let isPulling = false;
 
+    // Load all shows
     async function loadShows() {
-  const promises = shows.map(file =>
-    fetch(file)
-      .then(res => res.ok ? res.json() : Promise.reject(`Failed: ${file}`))
-      .then(data => ({ file, data: data.data }))
-      .catch(err => {
-        console.warn(err);
-        return null; // skip bad files
-      })
-  );
-
-  const results = await Promise.allSettled(promises);
-  allShows = results
-    .filter(r => r.status === 'fulfilled' && r.value)
-    .map(r => r.value);
-
-  loadingEl.style.display = 'none'; // ✅ hide spinner after loading
-  applyFilters(); // initial render
-}
-
-
-
-    // Create skeleton cards
-    function showSkeletonCards() {
-      showListEl.innerHTML = '';
-      for (let i = 0; i < 12; i++) {
-        const skeletonCard = document.createElement("div");
-        skeletonCard.className = "skeleton-card";
-        skeletonCard.innerHTML = `
-          <div class="skeleton skeleton-image"></div>
-          <div style="padding: 0.7rem;">
-            <div class="skeleton skeleton-text"></div>
-            <div class="skeleton skeleton-text" style="width: 60%; margin-top: 0.5rem;"></div>
-          </div>
-        `;
-        showListEl.appendChild(skeletonCard);
+      try {
+        const promises = shows.map(file => 
+          fetch(file).then(res => res.json()).then(data => ({
+            file,
+            data: data.data
+          }))
+        );
+        
+        allShows = await Promise.all(promises);
+        filteredShows = [...allShows];
+        renderShows();
+        updateResultsInfo();
+      } catch (error) {
+        console.error('Error loading shows:', error);
+        showListEl.innerHTML = '<div class="no-results"><i class="fas fa-exclamation-triangle"></i><h3>Error loading dramas</h3><p>Please try refreshing the page</p></div>';
+      } finally {
+        loadingEl.style.display = 'none';
       }
     }
 
-    // Render shows with improved animations
-function renderShows() {
-  showListEl.innerHTML = "";
-  noResults.style.display = "none";
-  loadingEl.style.display = "none";
+    // Render shows
+    function renderShows() {
+      showListEl.innerHTML = '';
+      
+      if (filteredShows.length === 0) {
+        noResults.style.display = 'block';
+        return;
+      }
+      
+      noResults.style.display = 'none';
+      
+      filteredShows.forEach(({ file, data: show }) => {
+        const card = document.createElement("div");
+        card.className = "show-card";
+        card.onclick = () => {
+  if (!navigator.onLine) {
+    const toast = document.getElementById("offlineToast");
+    toast.style.display = "block";
+    toast.style.animation = "popin 0.4s ease";
 
-  const searchQuery = searchInput.value.toLowerCase();
-  const selectedFilter = document.querySelector(".filter-tab.active")?.dataset.filter || "all";
-
-  const watchHistory = JSON.parse(localStorage.getItem("watchHistory") || "{}");
-
-  const filtered = allShows.filter(show => {
-    const title = show.data.title?.toLowerCase() || "";
-    const episodes = show.data.episodes_list || [];
-    const firstEp = episodes[0] || {};
-    const hasTrack = !!firstEp.track;
-
-    // Search filter
-    if (searchQuery && !title.includes(searchQuery)) return false;
-
-    // Filter logic
-    switch (selectedFilter) {
-      case "soft":
-        return hasTrack;
-      case "hard":
-        return !hasTrack;
-      case "continue":
-        const key = decodeURIComponent(show.file).replace(/^json\//, "").replace(/\.json$/, "");
-        return watchHistory.hasOwnProperty(key);
-      case "all":
-      default:
-        return true;
-    }
-  });
-
-  resultsCount.textContent = filtered.length;
-  if (selectedFilter === "continue") {
-  resultsCount.textContent = `${filtered.length} continue dramas`;
-} else if (selectedFilter === "soft") {
-  resultsCount.textContent = `${filtered.length} soft dramas`;
-} else if (selectedFilter === "hard") {
-  resultsCount.textContent = `${filtered.length} hard dramas`;
-} else {
-  resultsCount.textContent = `${filtered.length} dramas`;
-}
-
-  if (filtered.length === 0) {
-    noResults.style.display = "block";
+    setTimeout(() => {
+      toast.style.animation = "";
+      toast.style.display = "none";
+    }, 5000); // show for 5 seconds
     return;
   }
 
-  filtered.forEach(show => {
-    const title = show.data.title || "Untitled";
-    const image = show.data.image || "https://via.placeholder.com/300x400?text=No+Image";
-    const episodes = show.data.episodes_list || [];
-    const firstEp = episodes[0] || {};
-    const hasTrack = !!firstEp.track;
-
-    const showKey = decodeURIComponent(show.file).replace(/^json\//, "").replace(/\.json$/, "");
-    const watchedEp = watchHistory[showKey];
-
-    const card = document.createElement("div");
-    card.className = "show-card";
-    card.onclick = () => {
-      if (!navigator.onLine) {
-        const toast = document.getElementById("offlineToast");
-        toast.style.display = "block";
-        toast.style.animation = "popin 0.4s ease";
-        setTimeout(() => {
-          toast.style.animation = "";
-          toast.style.display = "none";
-        }, 3000);
-        return;
-      }
-
-      const subType = hasTrack ? "soft" : "hard";
-      location.href = `player.html?show=${encodeURIComponent(showKey)}&sub=${subType}`;
-    };
-
-    card.innerHTML = `
-      <div class="image-container">
-        <img src="${image}" alt="${title}" loading="lazy" />
-      </div>
-      <div class="show-title">
-        ${title}
-        ${hasTrack ? '<span class="sub-tag soft">Soft Sub</span>' : '<span class="sub-tag hard">Hard Sub</span>'}
-        ${selectedFilter === "continue" && watchedEp !== undefined
-          ? `<span class="sub-tag soft">EP ${watchedEp + 1} watched</span>`
-          : ""
-        }
-      </div>
-    `;
-
-    showListEl.appendChild(card);
-  });
-}
+  location.href = `player.html?show=${encodeURIComponent(file)}&sub=${hasSoftSub ? 'soft' : 'hard'}`;
+};
 
 
+        
+        const imageUrl = show.image || 'https://via.placeholder.com/180x240/333/fff?text=No+Image';
+		const hasSoftSub =
+			Array.isArray(show.episodes_list) &&
+			typeof show.episodes_list[0]?.track === 'string' &&
+			show.episodes_list[0].track.trim() !== '';
 
 
-    // Enhanced search with debouncing
-    function searchShows(query) {
-      searchTerm = query.toLowerCase().trim();
-      applyFilters();
+		card.innerHTML = `
+			<img src="${imageUrl}" alt="${show.title}" loading="lazy">
+			<div class="show-title">
+				${show.title}
+				<span class="sub-tag ${hasSoftSub ? 'soft' : 'hard'}">
+					${hasSoftSub ? 'Soft Sub' : 'Hard Sub'}
+				</span>
+			</div>
+		`;
+
+        
+        showListEl.appendChild(card);
+      });
     }
 
-    // Apply filters and search
-    function applyFilters() {
-      let filtered = [...allShows];
+    // Search functionality
+    function searchShows(query) {
+      const searchTerm = query.toLowerCase().trim();
       
-      // Apply search filter
-      if (searchTerm) {
-        filtered = filtered.filter(({ data: show }) => 
+      if (!searchTerm) {
+        filteredShows = [...allShows];
+      } else {
+        filteredShows = allShows.filter(({ data: show }) => 
           show.title.toLowerCase().includes(searchTerm)
         );
       }
       
-      // Apply category filter
-      if (currentFilter !== 'all') {
-        filtered = filtered.filter(({ data: show }) => {
-          const hasSoftSub = Array.isArray(show.episodes_list) &&
-            typeof show.episodes_list[0]?.track === 'string' &&
-            show.episodes_list[0].track.trim() !== '';
-          
-          switch (currentFilter) {
-            case 'soft':
-              return hasSoftSub;
-            case 'hard':
-              return !hasSoftSub;
-            case 'continue':
-				const saved = JSON.parse(localStorage.getItem('watchHistory') || '{}');
-				const showKey = decodeURIComponent(show.file)
-					.replace(/^json\//, '')
-					.replace(/\.json$/, '');
-				return saved.hasOwnProperty(showKey);
-
-            default:
-              return true;
-          }
-        });
-      }
-      
-      filteredShows = filtered;
       renderShows();
       updateResultsInfo();
     }
 
-    // Update results info with better formatting
+    // Update results info
     function updateResultsInfo() {
       const total = allShows.length;
       const shown = filteredShows.length;
-      
-      resultsCount.textContent = shown;
+      const searchTerm = searchInput.value.trim();
       
       if (searchTerm) {
-        resultsText.textContent = `of ${total} for "${searchTerm}"`;
-      } else if (currentFilter !== 'all') {
-        resultsText.textContent = `${currentFilter} dramas`;
+        resultsInfo.textContent = `Showing ${shown} of ${total} dramas for "${searchTerm}"`;
       } else {
-        resultsText.textContent = 'dramas available';
+        resultsInfo.textContent = `Showing all ${total} dramas`;
       }
     }
 
-    // Enhanced offline toast
-    function showOfflineToast() {
-      const toast = document.getElementById("offlineToast");
-      toast.style.display = "block";
-      toast.style.animation = "popin 0.4s ease";
-
-      setTimeout(() => {
-        toast.style.animation = "popout 0.4s ease";
-        setTimeout(() => {
-          toast.style.display = "none";
-          toast.style.animation = "";
-        }, 400);
-      }, 3000);
-    }
-
-    // Error handling
-    function showError() {
-      showListEl.innerHTML = `
-        <div class="no-results">
-          <i class="fas fa-exclamation-triangle"></i>
-          <h3>Something went wrong</h3>
-          <p>Please try refreshing the page</p>
-          <button onclick="location.reload()" style="
-            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
-            color: #000;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 20px;
-            font-weight: 600;
-            margin-top: 1rem;
-            cursor: pointer;
-          ">Refresh</button>
-        </div>
-      `;
-    }
-
-    // Search input handlers with better UX
+    // Search input handlers
     searchInput.addEventListener('input', (e) => {
       const value = e.target.value;
       
       if (value) {
-        clearSearch.classList.add('visible');
+        clearSearch.style.display = 'block';
       } else {
-        clearSearch.classList.remove('visible');
+        clearSearch.style.display = 'none';
       }
       
+      // Debounce search
       clearTimeout(searchInput.searchTimeout);
       searchInput.searchTimeout = setTimeout(() => {
         searchShows(value);
       }, 300);
     });
 
-    // Clear search with animation
+    // Clear search
     clearSearch.addEventListener('click', () => {
       searchInput.value = '';
-      clearSearch.classList.remove('visible');
+      clearSearch.style.display = 'none';
       searchShows('');
       searchInput.focus();
     });
-
-    // Filter tabs
-    filterTabs.addEventListener('click', (e) => {
-      if (e.target.classList.contains('filter-tab')) {
-        // Remove active class from all tabs
-        document.querySelectorAll('.filter-tab').forEach(tab => {
-          tab.classList.remove('active');
-        });
-        
-        // Add active class to clicked tab
-        e.target.classList.add('active');
-        
-        // Update current filter
-        currentFilter = e.target.dataset.filter;
-        
-        // Apply filters
-        applyFilters();
-        
-        // Haptic feedback
-        if (navigator.vibrate) {
-          navigator.vibrate(30);
-        }
-      }
-    });
-
-    // Scroll effects
-    let lastScrollY = window.scrollY;
-    window.addEventListener('scroll', () => {
-      const currentScrollY = window.scrollY;
-      
-      if (currentScrollY > 50) {
-        header.classList.add('scrolled');
-      } else {
-        header.classList.remove('scrolled');
-      }
-      
-      lastScrollY = currentScrollY;
-    });
-
-    // Pull to refresh functionality
-    let startY = 0;
-    let pullDistance = 0;
-    const maxPullDistance = 80;
-
-    document.addEventListener('touchstart', (e) => {
-      if (window.scrollY === 0) {
-        startY = e.touches[0].clientY;
-        isPulling = true;
-      }
-    }, { passive: true });
-
-    document.addEventListener('touchmove', (e) => {
-      if (!isPulling || window.scrollY > 0) return;
-      
-      const currentY = e.touches[0].clientY;
-      pullDistance = Math.max(0, Math.min(maxPullDistance, currentY - startY));
-      
-      if (pullDistance > 20) {
-        pullRefresh.classList.add('visible');
-        pullRefresh.style.transform = `translateX(-50%) translateY(${pullDistance - 60}px)`;
-        
-        if (pullDistance > 60) {
-          pullRefresh.innerHTML = '<i class="fas fa-sync-alt" style="animation: spin 1s linear infinite;"></i> Release to refresh';
-        } else {
-          pullRefresh.innerHTML = '<i class="fas fa-arrow-down"></i> Pull to refresh';
-        }
-      }
-    }, { passive: true });
-
-    document.addEventListener('touchend', () => {
-      if (isPulling && pullDistance > 60) {
-        // Trigger refresh
-        pullRefresh.innerHTML = '<i class="fas fa-sync-alt" style="animation: spin 1s linear infinite;"></i> Refreshing...';
-        
-        setTimeout(() => {
-          location.reload();
-        }, 1000);
-      } else {
-        pullRefresh.classList.remove('visible');
-        pullRefresh.style.transform = 'translateX(-50%) translateY(-60px)';
-      }
-      
-      isPulling = false;
-      pullDistance = 0;
-    }, { passive: true });
 
     // Enter key search
     searchInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         clearTimeout(searchInput.searchTimeout);
         searchShows(e.target.value);
-        searchInput.blur(); // Hide mobile keyboard
       }
     });
 
-    // Prevent zoom on double tap for better UX
-    let lastTouchEnd = 0;
-    document.addEventListener('touchend', (e) => {
-      const now = (new Date()).getTime();
-      if (now - lastTouchEnd <= 300) {
-        e.preventDefault();
-      }
-      lastTouchEnd = now;
-    }, false);
-
-    // Initialize with skeleton loading
-    showSkeletonCards();
+    // Initialize
     loadShows();
-
-    // Service Worker registration
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/quicksubs/service-worker.js')
-        .then(reg => console.log('SW registered ✅'))
-        .catch(err => console.error('SW error ❌', err));
-    }
-
-    // Network status handling
-    window.addEventListener('online', () => {
-      console.log('Back online');
-      // Could reload data here
-    });
-
-    window.addEventListener('offline', () => {
-      console.log('Gone offline');
-    });
-
-    // Performance optimization: Intersection Observer for lazy loading
-    if ('IntersectionObserver' in window) {
-      const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const img = entry.target;
-            img.src = img.dataset.src || img.src;
-            img.classList.remove('skeleton');
-            observer.unobserve(img);
-          }
-        });
-      });
-
-      // Observe images after they're added to DOM
-      const observeImages = () => {
-        document.querySelectorAll('img[data-src]').forEach(img => {
-          imageObserver.observe(img);
-        });
-      };
-
-      // Call after rendering
-      setTimeout(observeImages, 100);
-    }
   </script>
+  <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/quicksubs/service-worker.js')
+      .then(reg => console.log('SW registered ✅'))
+      .catch(err => console.error('SW error ❌', err));
+  }
+</script>
+
 </body>
 </html>
