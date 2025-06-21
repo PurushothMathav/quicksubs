@@ -152,7 +152,7 @@
       margin: 0 auto;
       padding: 1rem;
     }
-
+	
     /* Filter Tabs */
     .filter-tabs {
       display: flex;
@@ -190,8 +190,8 @@
       color: #000;
       font-weight: 600;
       transform: scale(1.05);
-    }
-
+    } 
+	
     .results-info {
       text-align: center;
       margin-bottom: 1.5rem;
@@ -414,7 +414,7 @@
         padding: 0.5rem 1rem;
         font-size: 0.85rem;
       }
-    }
+    } 
 
     @media (max-width: 480px) {
       .main-title {
@@ -540,6 +540,54 @@
         opacity: 0.9;
       }
     }
+	
+	#scrollToTopBtn {
+  position: fixed;
+  bottom: 30px;
+  right: 20px;
+  display: none;
+  z-index: 9999;
+  font-size: 16px;
+  background: #4ecdc4;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 10px 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+#scrollToTopBtn:hover {
+  background: #3dbbb3;
+}
+
+.skeleton-card {
+  animation: pulse 1.5s infinite ease-in-out;
+  background: #f0f0f0;
+  border-radius: 10px;
+}
+
+.skeleton-img {
+  width: 100%;
+  height: 220px;
+  background: #e0e0e0;
+  border-radius: 10px 10px 0 0;
+}
+
+.skeleton-text {
+  height: 48px;
+  background: #e0e0e0;
+  margin: 8px;
+  border-radius: 6px;
+}
+
+@keyframes pulse {
+  0% { background-color: #e0e0e0; }
+  50% { background-color: #f5f5f5; }
+  100% { background-color: #e0e0e0; }
+}
+
+
   </style>
 </head>
 <body>
@@ -619,7 +667,28 @@
     <div style="font-weight: 700; font-size: 1rem; margin-bottom: 0.3rem;">You're Offline</div>
     <div style="font-size: 0.8rem; color: #666;">Check your connection and try again</div>
   </div>
+	
+	<button id="scrollToTopBtn" title="Go to top">
+  ↑ Top
+</button>
 
+<script>
+	
+	// Scroll to top button
+const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+window.onscroll = () => {
+  scrollToTopBtn.style.display = window.scrollY > 300 ? "block" : "none";
+};
+
+scrollToTopBtn.onclick = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+};
+</script>
+	
   <script>
     const showListEl = document.getElementById("showList");
     const loadingEl = document.getElementById("loading");
@@ -1170,11 +1239,32 @@
       }
     }
 
-    // Render shows with improved animations
-function renderShows() {
+function showSkeletonLoader(count = 6) {
   showListEl.innerHTML = "";
+
+  for (let i = 0; i < count; i++) {
+    const skeleton = document.createElement("div");
+    skeleton.className = "show-card skeleton-card";
+    skeleton.innerHTML = `
+      <div class="image-container skeleton-img"></div>
+      <div class="show-title skeleton-text"></div>
+    `;
+    showListEl.appendChild(skeleton);
+  }
+}
+
+
+function renderShows() {
+  showSkeletonLoader(); // show gray skeletons
+
+  setTimeout(() => {
+    renderRealShows(); // after short delay, load real content
+  }, 300); // you can adjust to 0 if you want it instant
+}
+
+function renderRealShows() {
+  showListEl.innerHTML = ""; // clear skeletons
   noResults.style.display = "none";
-  loadingEl.style.display = "none";
 
   const searchQuery = searchInput.value.toLowerCase();
   const selectedFilter = document.querySelector(".filter-tab.active")?.dataset.filter || "all";
@@ -1187,10 +1277,8 @@ function renderShows() {
     const firstEp = episodes[0] || {};
     const hasTrack = !!firstEp.track;
 
-    // Search filter
     if (searchQuery && !title.includes(searchQuery)) return false;
 
-    // Filter logic
     switch (selectedFilter) {
       case "soft":
         return hasTrack;
@@ -1199,28 +1287,31 @@ function renderShows() {
       case "continue":
         const key = decodeURIComponent(show.file).replace(/^json\//, "").replace(/\.json$/, "");
         return watchHistory.hasOwnProperty(key);
-      case "all":
       default:
         return true;
     }
   });
 
-  resultsCount.textContent = filtered.length;
-  if (selectedFilter === "continue") {
-  resultsCount.textContent = `${filtered.length} continue dramas`;
+  // Set result count
+ resultsCount.textContent = filtered.length;
+
+if (selectedFilter === "continue") {
+  resultsText.textContent = "Dramas Found in Continue Watching";
 } else if (selectedFilter === "soft") {
-  resultsCount.textContent = `${filtered.length} soft dramas`;
+  resultsText.textContent = "Soft Subbed Dramas Found";
 } else if (selectedFilter === "hard") {
-  resultsCount.textContent = `${filtered.length} hard dramas`;
+  resultsText.textContent = "Hard Subbed Dramas Found";
 } else {
-  resultsCount.textContent = `${filtered.length} dramas`;
+  resultsText.textContent = "Dramas Avaialbe";
 }
+
 
   if (filtered.length === 0) {
     noResults.style.display = "block";
     return;
   }
 
+  // Now render the actual cards (same as before)
   filtered.forEach(show => {
     const title = show.data.title || "Untitled";
     const image = show.data.image || "https://via.placeholder.com/300x400?text=No+Image";
@@ -1258,16 +1349,13 @@ function renderShows() {
         ${hasTrack ? '<span class="sub-tag soft">Soft Sub</span>' : '<span class="sub-tag hard">Hard Sub</span>'}
         ${selectedFilter === "continue" && watchedEp !== undefined
           ? `<span class="sub-tag soft">EP ${watchedEp + 1} watched</span>`
-          : ""
-        }
+          : ""}
       </div>
     `;
 
     showListEl.appendChild(card);
   });
 }
-
-
 
 
     // Enhanced search with debouncing
