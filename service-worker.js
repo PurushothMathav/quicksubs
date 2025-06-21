@@ -1,4 +1,4 @@
-const CACHE_NAME = 'v2106250930';
+const CACHE_NAME = 'v2106251030';
 const OFFLINE_URLS = [
   '/quicksubs/index.html',
   '/quicksubs/player.html',
@@ -495,6 +495,9 @@ const OFFLINE_URLS = [
   "/quicksubs/json/%F0%9F%94%A5Cross-Border%20Possession.json",
   'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
+  'https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs',
+  'https://lottie.host/4ddf76a0-7693-4bcd-ac45-a1a8ca855a64/9nMGTLOhnm.lottie'
+  
 ];
 
 self.addEventListener('install', (event) => {

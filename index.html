@@ -311,7 +311,7 @@
       } */
 
       .show-card img {
-        height: 180px;
+        height: 150px;
       } 
     }
 
@@ -338,6 +338,19 @@
       background: linear-gradient(45deg, #45b7d1, #4ecdc4);
     }
   </style>
+  <!-- Toast Animation -->
+<style>
+@keyframes popin {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+}
+</style>
 </head>
 <body>
   <div class="header">
@@ -374,6 +387,43 @@
       <p>Try adjusting your search terms</p>
     </div>
   </div>
+  
+  <!-- Lottie Player Script -->
+<script
+  src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"
+  type="module"
+></script>
+
+<!-- Offline Toast with Light Background -->
+<div id="offlineToast" style="
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  color: #333;
+  padding: 1rem;
+  border-radius: 16px;
+  font-size: 0.95rem;
+  z-index: 9999;
+  display: none;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 340px;
+  text-align: center;
+  animation: popin 0.4s ease;
+">
+  <dotlottie-player
+    src="https://lottie.host/4ddf76a0-7693-4bcd-ac45-a1a8ca855a64/9nMGTLOhnm.lottie"
+    background="transparent"
+    speed="1"
+    style="width: 200px; height: 200px; margin: 0 auto;"
+    loop
+    autoplay
+  ></dotlottie-player>
+  <div style="font-weight: 700; font-size: 1.05rem; margin-top: -10px;">You're Offline</div>
+  <div style="font-size: 0.85rem; color: #666;">Please check your internet connection and try again.</div>
+</div>
 
   <script>
     const showListEl = document.getElementById("showList");
@@ -913,7 +963,23 @@
       filteredShows.forEach(({ file, data: show }) => {
         const card = document.createElement("div");
         card.className = "show-card";
-        card.onclick = () => location.href = `player.html?show=${encodeURIComponent(file)}&sub=${hasSoftSub ? 'soft' : 'hard'}`;
+        card.onclick = () => {
+  if (!navigator.onLine) {
+    const toast = document.getElementById("offlineToast");
+    toast.style.display = "block";
+    toast.style.animation = "popin 0.4s ease";
+
+    setTimeout(() => {
+      toast.style.animation = "";
+      toast.style.display = "none";
+    }, 5000); // show for 5 seconds
+    return;
+  }
+
+  location.href = `player.html?show=${encodeURIComponent(file)}&sub=${hasSoftSub ? 'soft' : 'hard'}`;
+};
+
+
         
         const imageUrl = show.image || 'https://via.placeholder.com/180x240/333/fff?text=No+Image';
 		const hasSoftSub =
