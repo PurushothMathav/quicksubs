@@ -1,7 +1,7 @@
 {
   "code": 1,
   "msg": "Detail",
-  "time": "1750214315",
+  "time": "1750602650",
   "data": {
     "id": 7108,
     "category_ids": "60",
@@ -1625,7 +1625,7 @@
         "url": "https://liketv.oss-cn-hongkong.aliyuncs.com/0wanfeng/%E5%A4%A9%E9%99%8D%E5%8F%8C/100.mp4"
       }
     ],
-    "adsurl": "https://liketv.oss-cn-hongkong.aliyuncs.com/00quicktv/36.mp4",
+    "adsurl": "https://liketv.oss-cn-hongkong.aliyuncs.com/00quicktv/23.mp4",
     "tags_arr": [],
     "category_text_arr": [],
     "year_text": "",

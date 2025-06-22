@@ -1,7 +1,7 @@
 {
   "code": 1,
   "msg": "Detail",
-  "time": "1750214362",
+  "time": "1750605488",
   "data": {
     "id": 9547,
     "category_ids": "139,57",
@@ -14,11 +14,11 @@
     "vprice": 5,
     "episodes": 99,
     "score": "92",
-    "views": "5.08K",
+    "views": "5.09K",
     "favorites": 0,
     "shares": 0,
     "likes": 0,
-    "hots": "5.08K",
+    "hots": "5.09K",
     "is_favorite": 0,
     "episode_id": 0,
     "view_time": 0,
@@ -33,7 +33,7 @@
         "duration": 84,
         "price": 0,
         "vprice": 0,
-        "views": 1,
+        "views": 2,
         "favorites": 0,
         "shares": 0,
         "likes": 0,
@@ -1609,7 +1609,7 @@
         "url": "https://liketv.oss-cn-hongkong.aliyuncs.com/%E9%B1%BC%E7%99%BD/99.mp4"
       }
     ],
-    "adsurl": "https://liketv.oss-cn-hongkong.aliyuncs.com/00quicktv/40.mp4",
+    "adsurl": "https://liketv.oss-cn-hongkong.aliyuncs.com/00quicktv/2.mp4",
     "tags_arr": [],
     "category_text_arr": [],
     "year_text": "",

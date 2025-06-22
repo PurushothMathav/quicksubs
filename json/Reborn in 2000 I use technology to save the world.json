@@ -1,7 +1,7 @@
 {
   "code": 1,
   "msg": "Detail",
-  "time": "1750214325",
+  "time": "1750602656",
   "data": {
     "id": 7852,
     "category_ids": "59",
@@ -118,7 +118,7 @@
         "shares": 0,
         "likes": 1,
         "is_like": 0,
-        "url": "https://liketv.oss-cn-hongkong.aliyuncs.com/btfolder2/video/wangpan/%E9%87%8D%E7%94%9F2000%E4%B9%8B%E6%88%91%E7%94%A8%E7%A7%91%E6%8A%80%E6%8B%AF%E6%95%91%E5%85%A8%E7%90%83/6.mp4"
+        "url": "https://liketv.oss-cn-hongkong.aliyuncs.com/btfolder2/video/wangpan/%E9%87%8D%E7%94%9F2000%E4%B9%8B%E6%88%91%E7%94%A8%E7%A7%91%E6%8A%80%E6%8B%AF%E6%95%91%E5%85%A8%E7%90%83/06.mp4"
       },
       {
         "track": "https://www.quicktv.vip/uploads/20240823/84e330bbe13cf3c701eb7a690ecb5bbb.vtt",
@@ -134,7 +134,7 @@
         "shares": 0,
         "likes": 1,
         "is_like": 0,
-        "url": "https://liketv.oss-cn-hongkong.aliyuncs.com/btfolder2/video/wangpan/%E9%87%8D%E7%94%9F2000%E4%B9%8B%E6%88%91%E7%94%A8%E7%A7%91%E6%8A%80%E6%8B%AF%E6%95%91%E5%85%A8%E7%90%83/7.mp4"
+        "url": "https://liketv.oss-cn-hongkong.aliyuncs.com/btfolder2/video/wangpan/%E9%87%8D%E7%94%9F2000%E4%B9%8B%E6%88%91%E7%94%A8%E7%A7%91%E6%8A%80%E6%8B%AF%E6%95%91%E5%85%A8%E7%90%83/07.mp4"
       },
       {
         "track": "https://www.quicktv.vip/uploads/20240823/1c80cf0eca844d1ab00c6ff346df117f.vtt",
@@ -150,7 +150,7 @@
         "shares": 0,
         "likes": 1,
         "is_like": 0,
-        "url": "https://liketv.oss-cn-hongkong.aliyuncs.com/btfolder2/video/wangpan/%E9%87%8D%E7%94%9F2000%E4%B9%8B%E6%88%91%E7%94%A8%E7%A7%91%E6%8A%80%E6%8B%AF%E6%95%91%E5%85%A8%E7%90%83/8.mp4"
+        "url": "https://liketv.oss-cn-hongkong.aliyuncs.com/btfolder2/video/wangpan/%E9%87%8D%E7%94%9F2000%E4%B9%8B%E6%88%91%E7%94%A8%E7%A7%91%E6%8A%80%E6%8B%AF%E6%95%91%E5%85%A8%E7%90%83/08.mp4"
       },
       {
         "track": "https://www.quicktv.vip/uploads/20240823/0803032c7e249809b292c960b3993177.vtt",
@@ -166,7 +166,7 @@
         "shares": 0,
         "likes": 1,
         "is_like": 0,
-        "url": "https://liketv.oss-cn-hongkong.aliyuncs.com/btfolder2/video/wangpan/%E9%87%8D%E7%94%9F2000%E4%B9%8B%E6%88%91%E7%94%A8%E7%A7%91%E6%8A%80%E6%8B%AF%E6%95%91%E5%85%A8%E7%90%83/9.mp4"
+        "url": "https://liketv.oss-cn-hongkong.aliyuncs.com/btfolder2/video/wangpan/%E9%87%8D%E7%94%9F2000%E4%B9%8B%E6%88%91%E7%94%A8%E7%A7%91%E6%8A%80%E6%8B%AF%E6%95%91%E5%85%A8%E7%90%83/09.mp4"
       },
       {
         "track": "https://www.quicktv.vip/uploads/20240823/a44e8a222a17f6dabe69164bb221c7b4.vtt",
@@ -1065,7 +1065,7 @@
         "url": "https://liketv.oss-cn-hongkong.aliyuncs.com/btfolder2/video/wangpan/%E9%87%8D%E7%94%9F2000%E4%B9%8B%E6%88%91%E7%94%A8%E7%A7%91%E6%8A%80%E6%8B%AF%E6%95%91%E5%85%A8%E7%90%83/65.mp4"
       }
     ],
-    "adsurl": "https://liketv.oss-cn-hongkong.aliyuncs.com/00quicktv/32.mp4",
+    "adsurl": "https://liketv.oss-cn-hongkong.aliyuncs.com/00quicktv/21.mp4",
     "tags_arr": [],
     "category_text_arr": [],
     "year_text": "",
